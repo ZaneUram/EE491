@@ -16,5 +16,18 @@ namespace Game_Control_Panel
         {
             InitializeComponent();
         }
+<<<<<<< HEAD
+=======
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EStopButton_Click(object sender, EventArgs e)
+        {
+
+        }
+>>>>>>> Basic GUI Design
     }
 }
