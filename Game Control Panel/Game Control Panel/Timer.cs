@@ -107,6 +107,7 @@ namespace Game_Control_Panel
                         {
                             hours--;
                             minutes = 59;
+                            seconds = 59;
                         }
                         else
                         {
