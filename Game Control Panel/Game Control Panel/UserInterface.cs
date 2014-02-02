@@ -43,7 +43,8 @@ namespace Game_Control_Panel
             }
             MessageBox.Show(message, "Start");
             gameTimer.setMinutes(GameLength);
-            TimerLabel.Text=gameTimer.ToString();
+            gameTimer.startTimer();
+            gameTimer.updateLabel(TimerLabel);
         }
 
         private void EStopButton_Click(object sender, EventArgs e)

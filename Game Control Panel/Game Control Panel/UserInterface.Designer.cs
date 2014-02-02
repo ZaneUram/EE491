@@ -173,12 +173,12 @@
             // TimerLabel
             // 
             this.TimerLabel.AutoSize = true;
-            this.TimerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TimerLabel.Location = new System.Drawing.Point(35, 357);
+            this.TimerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TimerLabel.Location = new System.Drawing.Point(28, 357);
             this.TimerLabel.Name = "TimerLabel";
-            this.TimerLabel.Size = new System.Drawing.Size(279, 55);
+            this.TimerLabel.Size = new System.Drawing.Size(284, 73);
             this.TimerLabel.TabIndex = 8;
-            this.TimerLabel.Text = "00:00:00.00";
+            this.TimerLabel.Text = "00:00:00";
             // 
             // GameScoresLabel
             // 

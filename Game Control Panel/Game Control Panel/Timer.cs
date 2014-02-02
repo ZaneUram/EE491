@@ -11,7 +11,15 @@ namespace Game_Control_Panel
         private int hours = 0; //hours remaining
         private int minutes = 0; //minutes remaining
         private int seconds = 0; //seconds remaining
-        private int milliseconds = 0; //milliseconds remaining
+        private bool timerIsRunning = false;
+        public void startTimer()
+        {
+            timerIsRunning=true;
+        }
+        public void stopTimer()
+        {
+            timerIsRunning = false;
+        }
         public string getHours() //outputs the two digit string format for the hours column
         {
             if (hours > 9)
@@ -66,27 +74,48 @@ namespace Game_Control_Panel
                 return "0" + seconds.ToString();
             }
         }
-        public string getMilliseconds() //outputs the two digit string format for the milliseconds column
-        {
-            if (milliseconds > 9)
-            {
-                return milliseconds.ToString();
-            }
-            else
-            {
-                return "0" + milliseconds.ToString();
-            }
-        }
         public void ClearTimer()
         {
             hours = 0;
             minutes = 0;
             seconds = 0;
-            milliseconds = 0;
         }
         public override string ToString()
         {
-            return getHours() + ":" + getMinutes() + ":" + getSeconds() + "." + getMilliseconds();
+            return getHours() + ":" + getMinutes() + ":" + getSeconds();
+        }
+        public void updateLabel(System.Windows.Forms.Label textlabel)
+        {
+            while (timerIsRunning)
+            {
+                textlabel.Text = this.ToString();
+                textlabel.Update();
+                if (seconds > 0)
+                {
+                    seconds--;
+                }
+                else
+                {
+                    if (minutes > 0)
+                    {
+                        minutes--;
+                        seconds = 59;
+                    }
+                    else
+                    {
+                        if (hours > 0)
+                        {
+                            hours--;
+                            minutes = 59;
+                        }
+                        else
+                        {
+                            this.stopTimer();
+                        }
+                    }
+                }
+                System.Threading.Thread.Sleep(1000);
+            }
         }
     }
 }
