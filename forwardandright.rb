@@ -5,7 +5,7 @@ A2 = nil
 B1 = nil
 B2 = nil
 
-if (A1 == 0 && A2 == 0)
+if (A1 == 1 && A2 == 1)
 		# move_forward
     puts "moving forward"
 	else
