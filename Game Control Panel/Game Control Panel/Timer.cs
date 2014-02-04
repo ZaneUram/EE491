@@ -21,6 +21,17 @@ namespace Game_Control_Panel
         {
             timerIsRunning = false;
         }
+        public bool timerExpired() //returns true if the timer has reached 00:00:00
+        {
+            if (seconds == 0 && minutes == 0 && hours == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public string getHours() //outputs the two digit string format for the hours column
         {
             if (hours > 9)
