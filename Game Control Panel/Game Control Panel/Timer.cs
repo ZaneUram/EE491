@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Game_Control_Panel
 {
@@ -11,7 +12,7 @@ namespace Game_Control_Panel
         private int hours = 0; //hours remaining
         private int minutes = 0; //minutes remaining
         private int seconds = 0; //seconds remaining
-        private bool timerIsRunning = false;
+        private volatile bool timerIsRunning = false; //volatile because multiple threads could access and change this property
         public void startTimer()
         {
             timerIsRunning=true;
@@ -88,8 +89,17 @@ namespace Game_Control_Panel
         {
             while (timerIsRunning)
             {
-                textlabel.Text = this.ToString();
-                textlabel.Update();
+                if (textlabel.InvokeRequired) //if the thread acessing the text label is not the same as the thread that created the text label
+                {
+                    textlabel.Invoke((MethodInvoker)(() => textlabel.Text = this.ToString())); //Runs this command as if it was running in the parent thread
+                    textlabel.Invoke((MethodInvoker)(() => textlabel.Update())); //Runs this command as if it was running in the parent thread
+                    //Invoke command referenced from http://tinyurl.com/m6nz8n8
+                }
+                else
+                {
+                    textlabel.Text = this.ToString();
+                    textlabel.Update();
+                }
                 if (seconds > 0)
                 {
                     seconds--;
@@ -115,7 +125,7 @@ namespace Game_Control_Panel
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000); //delay for one second (1000 miliseconds)
             }
         }
     }

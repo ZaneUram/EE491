@@ -78,21 +78,7 @@
             "3 Lives",
             "4 Lives",
             "5 Lives",
-            "6 Lives",
-            "7 Lives",
-            "8 Lives",
-            "9 Lives",
-            "10 Lives",
-            "15 Lives",
-            "20 Lives",
-            "25 Lives",
-            "30 Lives",
-            "35 Lives",
-            "40 Lives",
-            "45 Lives",
-            "50 Lives",
-            "55 Lives",
-            "60 Lives"});
+            "6 Lives"});
             this.NumberOfLivesComboBox.Location = new System.Drawing.Point(38, 51);
             this.NumberOfLivesComboBox.Name = "NumberOfLivesComboBox";
             this.NumberOfLivesComboBox.Size = new System.Drawing.Size(300, 21);
