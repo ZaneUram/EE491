@@ -1,14 +1,16 @@
 # Forward and Right Turn
 
-A1 = nil
-A2 = nil
-B1 = nil
-B2 = nil
+A1 = 0
+A2 = 0
+B1 = 0
+B2 = 0
 
-if (A1 == 0 && B1 == 1)
+if A1 == 0 
+  if B1 == 1
 		# reverse
     puts "reverse"
-	else
+  elsif B2 == 0
 		# turn_left
     puts "turn left"
 	end
+end

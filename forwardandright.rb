@@ -1,14 +1,24 @@
 # Forward and Right Turn
 
-A1 = nil
-A2 = nil
-B1 = nil
-B2 = nil
+# def control_main(A1,A2,B1,B2,PWMA,PWMB)
 
-if (A1 == 1 && A2 == 1)
+A1 = 1
+A2 = 0
+B1 = 0
+B2 = 0
+
+PWMA = nil
+PWMB = nil
+
+if A1 == 1 
+  if A2 == 1
 		# move_forward
+    # move_forward(PWMA,PWMB)
     puts "moving forward"
-	else
+  elsif A2 == 0
 		# turn_right
+    # turn_right(PWMA,PWMB)
     puts "turning right"
 	end
+end
+# end
