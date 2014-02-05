@@ -339,7 +339,6 @@
             this.Player1Lives.Name = "Player1Lives";
             this.Player1Lives.Size = new System.Drawing.Size(87, 23);
             this.Player1Lives.TabIndex = 18;
-            this.Player1Lives.Tag = "";
             // 
             // Player2Lives
             // 

@@ -7,10 +7,3 @@ C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\Debug\Game Control Panel.exe
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\Debug\Game Control Panel.pdb
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\Debug\Game_Control_Panel.UserInterface.resources
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\bin\Debug\Game Control Panel.exe.manifest
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\bin\Debug\Game Control Panel.application
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\Debug\Game Control Panel.exe.manifest
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel\obj\Debug\Game Control Panel.application
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2013 Project\Game Control Panel\bin\Debug\Game Control Panel.exe.config
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2013 Project\Game Control Panel\obj\Debug\Game Control Panel.exe
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2013 Project\Game Control Panel\obj\Debug\Game Control Panel.pdb
