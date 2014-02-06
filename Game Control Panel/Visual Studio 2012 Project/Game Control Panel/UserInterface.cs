@@ -52,7 +52,9 @@ namespace Game_Control_Panel
                 timerThread.Start(); //Updates the timer in a sperate thread so other things can be done while the clock counts down
                 //Ends code to start timer
 
+
                 //Begin disabling setting controls
+                GameSettingsLabel.Enabled = false;
                 NumberOfLivesLabel.Enabled = false;
                 NumberOfLivesComboBox.Enabled = false;
                 GameLengthLabel.Enabled = false;
@@ -63,16 +65,11 @@ namespace Game_Control_Panel
                 NumberOfTeamsComboBox.Enabled = false;
                 //End disabling setting controls
 
+                //Begin changing Start/Stop button settings
                 EStopButton.Enabled = true; //Enabling Emergency Stop button
                 StartButton.Enabled = false; //Disabling Start button because while game is running you can not start another game.
                 StartButton.Text = "Resume Game"; //Change Start button to Resume Button
-
-                //Begins code to set all life indicators
-                Player1Lives.Value = 100;
-                Player2Lives.Value = 100;
-                Player3Lives.Value = 100;
-                Player4Lives.Value = 100;
-                //Ends code to set all life indicators
+                //End changing Start/Stop button settings
 
                 //Begins code to output message
                 string message = "Game Started " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
@@ -101,7 +98,10 @@ namespace Game_Control_Panel
                 {
                     message = message + "Individual Game\n";
                 }
-                GameScores.Text = message; //This will be implimented differently once the scoring object is complete
+
+                Scorekeeper.Enabled = true;
+                Scorekeeper.StartGame(NumberOfLives); //Tells the scorekeeping object to start the game will a set number of lives
+                
                 MessageBox.Show(message, "Start");
                 //Ends code to output message
             }
@@ -143,16 +143,13 @@ namespace Game_Control_Panel
 
         private void ResetGame()
         {
-            GameScores.Text = "";
+            Scorekeeper.ResetGame();
+            Scorekeeper.Enabled = false;
             NumberOfLivesComboBox.SelectedIndex = 5;
             GameLengthComboBox.SelectedIndex = 4;
             EStopButton.Enabled = false; //Disabled because while the game is running there is nothing to stop
             EStopButton.Text = "Emergency Stop"; //Changes text from Reset Game to Emergency Stop
             StartButton.Text = "Start"; //Changes text from Resume Game to Start
-            Player1Lives.Value = 0;
-            Player2Lives.Value = 0;
-            Player3Lives.Value = 0;
-            Player4Lives.Value = 0;
             gameTimer.ClearTimer();
             TimerLabel.Text = gameTimer.ToString();
             IndividualGameRadioButton.Checked = true;
@@ -160,6 +157,7 @@ namespace Game_Control_Panel
 
             //Begin enabling setting controls
             StartButton.Enabled = true;
+            GameSettingsLabel.Enabled = true;
             NumberOfLivesLabel.Enabled = true;
             NumberOfLivesComboBox.Enabled = true;
             GameLengthLabel.Enabled = true;
@@ -199,38 +197,7 @@ namespace Game_Control_Panel
                 NumberOfTeams = NumberOfTeamsComboBox.SelectedIndex + 2; //adding 2 because we started counting from 2 instead of from 0
 
             }
-            switch (NumberOfTeams)
-            {
-                case 2:
-                    //Players 1 and 2 are not forced to a visible state because they are never hidden
-                    Player3Label.Visible=false;
-                    Player3Lives.Visible=false;
-                    Player3Score.Visible=false;
-                    Player4Label.Visible=false;
-                    Player4Lives.Visible=false;
-                    Player4Score.Visible=false;
-                   break;
-                case 3:
-                   //Players 1 and 2 are not forced to a visible state because they are never hidden
-                   Player3Label.Visible = true;
-                   Player3Lives.Visible = true;
-                   Player3Score.Visible = true;
-                   Player4Label.Visible = false;
-                   Player4Lives.Visible = false;
-                   Player4Score.Visible = false;
-                   break;
-                default:
-                case 4:
-                   //Players 1 and 2 are not forced to a visible state because they are never hidden
-                   Player3Label.Visible = true;
-                   Player3Lives.Visible = true;
-                   Player3Score.Visible = true;
-                   Player4Label.Visible = true;
-                   Player4Lives.Visible = true;
-                   Player4Score.Visible = true;
-                   break;
-
-            }
+            Scorekeeper.setNumberOfTeams(NumberOfTeams);
         }
 
         private void TeamRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -239,10 +206,6 @@ namespace Game_Control_Panel
             {
                 NumberOfTeamsLabel.Visible = true;
                 NumberOfTeamsComboBox.Visible = true;
-                Player1Label.Text = "Team 1";
-                Player2Label.Text = "Team 2";
-                Player3Label.Text = "Team 3";
-                Player4Label.Text = "Team 4";
                 NumberOfTeamsComboBox.SelectedIndex = 0; //Sets the default number of teams as 2
             }
             else
@@ -250,12 +213,8 @@ namespace Game_Control_Panel
                 NumberOfTeams = 0;
                 NumberOfTeamsLabel.Visible = false;
                 NumberOfTeamsComboBox.Visible = false;
-                Player1Label.Text = "Player 1";
-                Player2Label.Text = "Player 2";
-                Player3Label.Text = "Player 3";
-                Player4Label.Text = "Player 4";
             }
-            NumberOfTeamsComboBox_SelectedIndexChanged(sender, e);//
+            NumberOfTeamsComboBox_SelectedIndexChanged(sender, e);//This function will also change the labels from Team to Player or Player to Team
         }
     }
 }
