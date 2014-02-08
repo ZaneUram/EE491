@@ -72,7 +72,8 @@ namespace Game_Control_Panel
                 //End changing Start/Stop button settings
 
                 //Begins code to output message
-                string message = "Game Started " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
+                string message = "Robotag Game\n\n";
+                message = message + "Game Started:\n\t" + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
                 message = message + "Game settings:\n\t";
                 if (NumberOfLives != 1)
                 {
@@ -100,7 +101,7 @@ namespace Game_Control_Panel
                 }
 
                 Scorekeeper.Enabled = true;
-                Scorekeeper.StartGame(NumberOfLives); //Tells the scorekeeping object to start the game will a set number of lives
+                Scorekeeper.StartGame(NumberOfLives, message); //Tells the scorekeeping object to start the game will a set number of lives
                 
                 MessageBox.Show(message, "Start");
                 //Ends code to output message

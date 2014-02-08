@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game Control Panel.exe" size="23040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game Control Panel.exe" size="28672">
       <assemblyIdentity name="Game Control Panel" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KcU6STzvuXQdQf1eQGVW2L2Nw6gHTLiWbCQ+bgzBrn8=</dsig:DigestValue>
+        <dsig:DigestValue>FAAzw0dZsOp/1LsfUW8mdrKGxbPYQjAzG7AS5/MFqqc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
