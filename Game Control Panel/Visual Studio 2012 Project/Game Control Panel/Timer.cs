@@ -13,6 +13,10 @@ namespace Game_Control_Panel
         private int minutes = 0; //minutes remaining
         private int seconds = 0; //seconds remaining
         private volatile bool timerIsRunning = false; //volatile because multiple threads could access and change this property
+        public bool getTimerIsRunning()
+        {
+            return timerIsRunning;
+        }
         public void startTimer()
         {
             timerIsRunning=true;

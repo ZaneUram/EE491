@@ -26,8 +26,9 @@ namespace Game_Control_Panel
         private int HitBonus = 100; //The number of points gained from a successful shot
         private int deathDeduction = 25; //The number of points lost from a player's death
         private int NumberOfTeams = 0; //Valid values are 0, 2, 3, and 4
-        private string ScoreFileDirectory = "c://Robotag";
-        private string ScoreFileName = "GameScores.txt";
+        public const string SCOREFILEDIRECTORY = "c://Robotag";
+        public const string SCOREFILENAME = "GameScores.txt";
+        public const string ARCHIVEDIRECTORY = "Archives";
         StreamReader Stream = null;
         Regex expression = new Regex("Player\\d");
         string fileText;
@@ -127,34 +128,24 @@ namespace Game_Control_Panel
             setNumberOfLives(lives);
 
             StreamWriter WriteAccess = null;
-            if (!Directory.Exists(ScoreFileDirectory))
+            if (!Directory.Exists(SCOREFILEDIRECTORY))
             {
-                Directory.CreateDirectory(ScoreFileDirectory);
+                Directory.CreateDirectory(SCOREFILEDIRECTORY);
             }
-            if (!File.Exists(ScoreFileDirectory + "\\" + ScoreFileName))
+            if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
             {
-                File.CreateText(ScoreFileDirectory + "\\" + ScoreFileName);
+                File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
             }
             try
             {
-                using (WriteAccess = new StreamWriter(ScoreFileDirectory + "\\" + ScoreFileName))
+                using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
                 {
                     string[] MessageLines = message.Split('\n');
                     foreach (var line in MessageLines)
                     {
                         WriteAccess.WriteLine(line);
                     }
-                    WriteAccess.WriteLine();
-                    WriteAccess.WriteLine(); //adds two blank lines for readability
-                    //Adding data to test program by
-                    WriteAccess.WriteLine("00:00:00 Player1 shot Player1");
-                    WriteAccess.WriteLine("00:00:00 Player1 shot Player2");
-                    WriteAccess.WriteLine("00:00:00 Player1 shot Player3");
-                    WriteAccess.WriteLine("00:00:00 Player1 shot Player4");
-                    WriteAccess.WriteLine("00:00:00 Player2 shot Player1");
-                    WriteAccess.WriteLine("00:00:00 Player2 shot Player2");
-                    WriteAccess.WriteLine("00:00:00 Player2 shot Player3");
-                    WriteAccess.WriteLine("00:00:00 Player2 shot Player4");
+                    WriteAccess.WriteLine(); //adds blank line for readability
                 }
             }
             catch (IOException)
@@ -168,10 +159,9 @@ namespace Game_Control_Panel
         {
             try
             {
-                using (Stream = new StreamReader(ScoreFileDirectory + "\\" + ScoreFileName))
+                using (Stream = new StreamReader(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
                 {
                     fileText = Stream.ReadToEnd();
-                    GameScores.Text = fileText;
                 }
             }
             catch (IOException)
@@ -179,6 +169,7 @@ namespace Game_Control_Panel
                 MessageBox.Show("Error reading from file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Stream.Close();
+            GameScores.Text = fileText;
             string[] fileLines = fileText.Split('\n');
             Match hitData;
             int shootingPlayer;
@@ -232,6 +223,31 @@ namespace Game_Control_Panel
             Player3Score.Text = Player3ScoreValue.ToString() + " Points";
             Player4Score.Text = Player4ScoreValue.ToString() + " Points";
             //Ends code to set all score labels
+        }
+        public bool OnePlayerRemaining() //Returns true if there is only one player alvie so that the game can end
+        {
+            switch (NumberOfTeams)
+            {
+                case 2:
+                    Player3LivesCount = 0;
+                    Player4LivesCount = 0;
+                    break;
+                case 3:
+                    Player4LivesCount = 0;
+                    break;
+                case 4:
+                case 0:
+                default:
+                    break;
+            }
+            if ((Player1LivesCount == 0 && Player2LivesCount == 0 && Player3LivesCount == 0 && Player4LivesCount != 0) || (Player1LivesCount == 0 && Player2LivesCount == 0 && Player3LivesCount != 0 && Player4LivesCount == 0) || (Player1LivesCount == 0 && Player2LivesCount != 0 && Player3LivesCount == 0 && Player4LivesCount == 0) || (Player1LivesCount != 0 && Player2LivesCount == 0 && Player3LivesCount == 0 && Player4LivesCount == 0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         private void ScoreHit(int shootingPlayer, int playerHit)
         {
@@ -639,8 +655,112 @@ namespace Game_Control_Panel
                     break;
             }
         }
+        public void AppendResults() //Appends the game scores to the file
+        {
+            if (!Directory.Exists(SCOREFILEDIRECTORY))
+            {
+                Directory.CreateDirectory(SCOREFILEDIRECTORY);
+            }
+            if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+            {
+                File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
+            }
+            StreamWriter WriteAccess = null;
+            try
+            {
+                using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                {
+                    string[] fileData = GameScores.Text.Split('\n');
+                    foreach (var line in fileData)
+                    {
+                        WriteAccess.WriteLine(line);
+                    }
+                    WriteAccess.WriteLine();
+                    WriteAccess.WriteLine();
+                    WriteAccess.WriteLine("Final Game Scores:");
+                    WriteAccess.WriteLine();
+                    WriteAccess.WriteLine(Player1Label.Text);
+                    WriteAccess.WriteLine("\t" + Player1Score.Text);
+                    if (Player1LivesCount != 1)
+                    {
+                        WriteAccess.WriteLine("\t" + Player1LivesCount + " Lives");
+                    }
+                    else
+                    {
+                        WriteAccess.WriteLine("\t" + Player1LivesCount + " Life");
+                    }
+                    WriteAccess.WriteLine();
+                    WriteAccess.WriteLine(Player2Label.Text);
+                    WriteAccess.WriteLine("\t" + Player2Score.Text);
+                    if (Player2LivesCount != 1)
+                    {
+                        WriteAccess.WriteLine("\t" + Player2LivesCount + " Lives");
+                    }
+                    else
+                    {
+                        WriteAccess.WriteLine("\t" + Player2LivesCount + " Life");
+                    }
+                    WriteAccess.WriteLine();
+                    if (NumberOfTeams == 3 || NumberOfTeams == 4 || NumberOfTeams == 0)
+                    {
+                        WriteAccess.WriteLine(Player3Label.Text);
+                        WriteAccess.WriteLine("\t" + Player3Score.Text);
+                        if (Player3LivesCount != 1)
+                        {
+                            WriteAccess.WriteLine("\t" + Player3LivesCount + " Lives");
+                        }
+                        else
+                        {
+                            WriteAccess.WriteLine("\t" + Player3LivesCount + " Life");
+                        }
+                        WriteAccess.WriteLine();
+                    }
+                    if (NumberOfTeams == 4 || NumberOfTeams == 0)
+                    {
+                        WriteAccess.WriteLine(Player4Label.Text);
+                        WriteAccess.WriteLine("\t" + Player4Score.Text);
+                        if (Player4LivesCount != 1)
+                        {
+                            WriteAccess.WriteLine("\t" + Player4LivesCount + " Lives");
+                        }
+                        else
+                        {
+                            WriteAccess.WriteLine("\t" + Player4LivesCount + " Life");
+                        }
+                        WriteAccess.WriteLine();
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            WriteAccess.Close(); //Close read access to file
+            updateGame();
+        }
         public void ResetGame() //Called to clear all game data
         {
+            if (File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+            {
+                AppendResults();
+                if (!Directory.Exists(SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY))
+                {
+                    Directory.CreateDirectory(SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY);
+                }
+                DateTime GameStartTime = File.GetCreationTime(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME);
+                string GameStartTimeString = GameStartTime.ToString();
+                GameStartTimeString = GameStartTimeString.Replace("/", ".");
+                GameStartTimeString = GameStartTimeString.Replace(":", "_");
+                GameStartTimeString += " ";
+                int duplicateFileNameCounter = 1;
+                while (File.Exists(SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY + "\\Robotag Game " + GameStartTimeString + ".txt"))
+                {
+                    GameStartTimeString = GameStartTimeString.TrimEnd(new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
+                    GameStartTimeString += duplicateFileNameCounter.ToString();
+                    duplicateFileNameCounter++;
+                }
+                File.Move(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME, SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY + "\\Robotag Game " + GameStartTimeString + ".txt");
+            }
             Player1ScoreValue = 0;
             Player2ScoreValue = 0;
             Player3ScoreValue = 0;

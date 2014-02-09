@@ -31,8 +31,13 @@ namespace Game_Control_Panel
                 //Begin code to resume timer
                 gameTimer.startTimer();
                 Thread timerThread = new Thread(new ThreadStart(updateTimerLabel)); //Sets up a seperate thread
+                timerThread.Name = "Timer Thread";
                 timerThread.Start(); //Updates the timer in a sperate thread so other things can be done while the clock counts down
                 //Ends code to resume timer
+                
+                Thread ScoreKeeperThread = new Thread(new ThreadStart(updateGameData));
+                ScoreKeeperThread.Name = "ScoreKeeper Thread";
+                ScoreKeeperThread.Start();
 
                 EStopButton.Enabled = true; //Enabling Emergency Stop button
                 EStopButton.Text = "Emergency Stop";
@@ -49,6 +54,7 @@ namespace Game_Control_Panel
                 gameTimer.setMinutes(GameLength);
                 gameTimer.startTimer();
                 Thread timerThread = new Thread(new ThreadStart(updateTimerLabel)); //Sets up a seperate thread
+                timerThread.Name = "Timer Thread";
                 timerThread.Start(); //Updates the timer in a sperate thread so other things can be done while the clock counts down
                 //Ends code to start timer
 
@@ -71,9 +77,9 @@ namespace Game_Control_Panel
                 StartButton.Text = "Resume Game"; //Change Start button to Resume Button
                 //End changing Start/Stop button settings
 
-                //Begins code to output message
+                //Begins code to start scorekeeper
                 string message = "Robotag Game\n\n";
-                message = message + "Game Started:\n\t" + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
+                message = message + "Game Started: " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
                 message = message + "Game settings:\n\t";
                 if (NumberOfLives != 1)
                 {
@@ -93,18 +99,73 @@ namespace Game_Control_Panel
                 }
                 if (TeamGameRadioButton.Checked)
                 {
-                    message = message + "Team Game with " + NumberOfTeams + " teams\n";
+                    message = message + "Team Game with " + NumberOfTeams + " teams";
                 }
                 else
                 {
-                    message = message + "Individual Game\n";
+                    message = message + "Individual Game";
                 }
-
                 Scorekeeper.Enabled = true;
                 Scorekeeper.StartGame(NumberOfLives, message); //Tells the scorekeeping object to start the game will a set number of lives
-                
+                Thread ScoreKeeperThread = new Thread(new ThreadStart(updateGameData));
+                ScoreKeeperThread.Name = "ScoreKeeper Thread";
+                ScoreKeeperThread.Start();
+                //End code to start scorekeeper
+
+                message = "Game started with " + NumberOfLives.ToString() + " lives.";
                 MessageBox.Show(message, "Start");
                 //Ends code to output message
+
+
+            }
+        }
+
+        private void updateGameData()
+        {
+            DateTime FileLastAccessed=System.IO.File.GetCreationTime(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME);
+            while (gameTimer.getTimerIsRunning())
+            {
+                if (DateTime.Compare(FileLastAccessed, System.IO.File.GetLastWriteTime(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME)) < 0) //Only scans the file if it has changed since it was last accessed.
+                {
+                    if (Scorekeeper.InvokeRequired) //if the thread acessing the object is not the same as the thread that created the text label
+                    {
+                        Scorekeeper.Invoke((MethodInvoker)(() => Scorekeeper.updateGame())); //Runs this command as if it was running in the parent thread
+                        //Invoke command referenced from http://tinyurl.com/m6nz8n8
+                    }
+                    else
+                    {
+                        Scorekeeper.updateGame();
+                    }
+                    FileLastAccessed = DateTime.Now;
+                    if (Scorekeeper.OnePlayerRemaining())
+                    {
+                        gameTimer.stopTimer();
+                        if (Scorekeeper.InvokeRequired) //if the thread acessing the object is not the same as the thread that created the text label
+                        {
+                            Scorekeeper.Invoke((MethodInvoker)(() => Scorekeeper.AppendResults())); //Runs this command as if it was running in the parent thread
+                            //Invoke command referenced from http://tinyurl.com/m6nz8n8
+                        }
+                        else
+                        {
+                            Scorekeeper.AppendResults();
+                        }
+                        if (EStopButton.InvokeRequired)//if the thread acessing the button is not the same as the thread that created the text label
+                        {
+                            EStopButton.Invoke((MethodInvoker)(() => EStopButton.Text = "Reset Game")); //Runs this command as if it was running in the parent thread
+                            //Invoke command referenced from http://tinyurl.com/m6nz8n8
+                        }
+                        else
+                        {
+                            EStopButton.Text = "Reset Game"; //Change E-Stop button to a reset game button.
+                        }
+                        MessageBox.Show("Game over because only one player is remaining.", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        break;
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                }
             }
         }
 
@@ -122,6 +183,15 @@ namespace Game_Control_Panel
                 {
                     EStopButton.Text = "Reset Game"; //Change E-Stop button to a reset game button.
                 }
+                if (Scorekeeper.InvokeRequired) //if the thread acessing the text label is not the same as the thread that created the text label
+                {
+                    Scorekeeper.Invoke((MethodInvoker)(() => Scorekeeper.AppendResults())); //Runs this command as if it was running in the parent thread
+                    //Invoke command referenced from http://tinyurl.com/m6nz8n8
+                }
+                else
+                {
+                    Scorekeeper.AppendResults();
+                }
                 MessageBox.Show("Game Ended", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
@@ -129,7 +199,7 @@ namespace Game_Control_Panel
 
         private void EStopButton_Click(object sender, EventArgs e)
         {
-            if (StartButton.Enabled||gameTimer.timerExpired()) //If the start button is enabled then the game can be reset
+            if (StartButton.Enabled||gameTimer.timerExpired()||Scorekeeper.OnePlayerRemaining()) //If the start button is enabled then the game can be reset. The game can also be reset when the game is over (one player remaing or time expired).
             {
                 ResetGame();
             }
