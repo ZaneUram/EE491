@@ -52,5 +52,6 @@ class B3_Initialize
 	@pin_45 = 0 #GPI02_6
 	@pin_46 = 0 #GPI02_7
   end
+  puts "All Pins Initialized!"
 end
   
