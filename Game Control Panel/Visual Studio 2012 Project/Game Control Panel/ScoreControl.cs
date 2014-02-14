@@ -9,42 +9,43 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics; //For Debug statement
+
+//This class will read from the score file and keep track of score. The directories and files are defined by constant
+//strings. The file interpreter is designed to look for line where the string PlayerX occurs twice. The X is a number.
+//The first PlayerX is the player who fired their lazer blaster and the second is the player who recieved the hit.
 
 namespace Game_Control_Panel
 {
     public partial class ScoreControl : UserControl
     {
-        private int numberOfLives=6;
-        private int Player1ScoreValue=0;
-        private int Player2ScoreValue=0;
-        private int Player3ScoreValue=0;
+        private int numberOfLives = 6; //Number of lives in the game. Game default 6, but changed when the game starts Valid values 1-6 inclusive
+        private int Player1ScoreValue = 0;
+        private int Player2ScoreValue = 0;
+        private int Player3ScoreValue = 0;
         private int Player4ScoreValue = 0;
-        private int Player1LivesCount;
-        private int Player2LivesCount;
-        private int Player3LivesCount;
-        private int Player4LivesCount;
-        private int HitBonus = 100; //The number of points gained from a successful shot
-        private int deathDeduction = 25; //The number of points lost from a player's death
-        private int NumberOfTeams = 0; //Valid values are 0, 2, 3, and 4
+        private int Player1LivesCount = 6; //Game default 6, but changed to numberOfLives value in updateGame()
+        private int Player2LivesCount = 6; //Game default 6, but changed to numberOfLives value in updateGame()
+        private int Player3LivesCount = 6; //Game default 6, but changed to numberOfLives value in updateGame()
+        private int Player4LivesCount = 6; //Game default 6, but changed to numberOfLives value in updateGame()
+        private const int HITBONUS = 100; //The number of points gained from a successful shot
+        private const int DEATHDEDUCTION = 25; //The number of points lost from a player's death
+        private int NumberOfTeams = 0; //Defualt value 0, but changed as user changes form settings Valid values are 0, 2, 3, and 4
         public const string SCOREFILEDIRECTORY = "c://Robotag";
         public const string SCOREFILENAME = "GameScores.txt";
         public const string ARCHIVEDIRECTORY = "Archives";
         StreamReader Stream = null;
-        Regex expression = new Regex("Player\\d");
-        string fileText;
+        Regex expression = new Regex("Player\\d"); //Keyword scanning for is PlayerX where X is a number
+        String fileText; //Used to store the contents of the file after reading in updating game or appending text to the file.
         public ScoreControl()
         {
             InitializeComponent();
         }
         public void setNumberOfLives(int lives)
         {
-            if (lives >= 0 && lives <= 6)
+            if (lives > 0 && lives <= 6)
             {
                 numberOfLives = lives;
-            }
-            else
-            {
-                Console.WriteLine("Attempt to set numberOfLives equal to {0} stopped because {0} is not in the valid range.", lives);
             }
         }
         public int getNumberOfLives()
@@ -57,11 +58,8 @@ namespace Game_Control_Panel
             {
                 NumberOfTeams = teams;
             }
-            else
-            {
-                Console.WriteLine("Attempt to set NumberOfTeams equal to {0} stopped because {0} is not in the valid range.", teams);
-            }
-
+            Debug.WriteLineIf(!(teams >= 0 && teams <= 4), "Attempt to set NumberOfTeams stopped because it is not in the valid range.");
+            
             switch (NumberOfTeams)
             {
                 case 2:
@@ -141,9 +139,9 @@ namespace Game_Control_Panel
                 using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
                 {
                     string[] MessageLines = message.Split('\n');
-                    foreach (var line in MessageLines)
+                    for (int i = 0; i < MessageLines.Length; i++)
                     {
-                        WriteAccess.WriteLine(line);
+                        WriteAccess.WriteLine(MessageLines[i]); //Outputs game start header
                     }
                     WriteAccess.WriteLine(); //adds blank line for readability
                 }
@@ -157,6 +155,27 @@ namespace Game_Control_Panel
         }
         public void updateGame()
         {
+            if (!Directory.Exists(SCOREFILEDIRECTORY))
+            {
+                Directory.CreateDirectory(SCOREFILEDIRECTORY);
+            }
+            if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+            {
+                File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
+                StreamWriter WriteAccess = null;
+                try
+                {
+                    using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                    {
+                        WriteAccess.WriteLine("{0}\tERROR: {1} was not found and was replaced by a blank {1}", DateTime.Now.ToLongTimeString(), SCOREFILENAME);
+                        WriteAccess.Close();
+                    }
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             try
             {
                 using (Stream = new StreamReader(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
@@ -170,10 +189,11 @@ namespace Game_Control_Panel
             }
             Stream.Close();
             GameScores.Text = fileText;
-            string[] fileLines = fileText.Split('\n');
+            string[] fileLines = fileText.Split('\n'); //Used for looking at each line individually
             Match hitData;
             int shootingPlayer;
             int playerHit;
+            //Starts reading with the full values of the scores and lives
             Player1ScoreValue = 0;
             Player2ScoreValue = 0;
             Player3ScoreValue = 0;
@@ -187,30 +207,28 @@ namespace Game_Control_Panel
                 if (expression.Matches(fileLines[i]).Count==2) //Each line with a hit should have two epressions of PlayerX
                 {
                     hitData = expression.Match(fileLines[i]);
-                    shootingPlayer = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString());
-                    hitData=hitData.NextMatch();
-                    playerHit = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString());
-                    if (shootingPlayer != playerHit)
+                    shootingPlayer = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString()); //Get the int form of the shooting player's Player number
+                    hitData=hitData.NextMatch(); //The next match is the player who was hit
+                    playerHit = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString());//Get the int form of the recieving player's Player number
+                    if (NumberOfTeams == 0)
                     {
-                        if (NumberOfTeams == 0)
+                        if (shootingPlayer >= 1 && shootingPlayer <= 4 && playerHit >= 1 && playerHit <= 4) //Valid values for individual game
                         {
-                            if (shootingPlayer >= 1 && shootingPlayer <= 4 && playerHit >= 1 && playerHit <= 4) //Valid values for individual game
-                            {
-                                ScoreHit(shootingPlayer, playerHit);
-                            }
+                            ScoreHit(shootingPlayer, playerHit);
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (shootingPlayer >= 1 && shootingPlayer <= NumberOfTeams && playerHit >= 1 && playerHit <= NumberOfTeams) //Valid values for individual game
                         {
-                            if (shootingPlayer >= 1 && shootingPlayer <= NumberOfTeams && playerHit >= 1 && playerHit <= NumberOfTeams) //Valid values for individual game
-                            {
-                                ScoreHit(shootingPlayer, playerHit);
-                            }
+                            ScoreHit(shootingPlayer, playerHit);
                         }
                     }
                 }
 			}
 
             //Begins code to set all life indicators
+            //This is mathimatically equivalent to (Player1LivesCount/numberOfLives)*100, but does not result in remainders
             Player1Lives.Value = (100 * Player1LivesCount) / numberOfLives;
             Player2Lives.Value = (100 * Player2LivesCount) / numberOfLives;
             Player3Lives.Value = (100 * Player3LivesCount) / numberOfLives;
@@ -251,492 +269,436 @@ namespace Game_Control_Panel
         }
         private void ScoreHit(int shootingPlayer, int playerHit)
         {
-            switch (playerHit)
+            //These switches and comparisons are made to adjust the score and lives as each hit is made.
+            //These cases are made to ignore inaccurate records like:
+            //      A player can not shoot another player if they are dead.
+            //      A player can to be shot if they are dead.
+            //      A player can not shoot themselves.
+            //      A player can not have negative points.
+            //      A player can not have negative lives.
+            //A successful hit will increase the player's score by a constant HITBONUS
+            //A death will result in a deduction of points based on a constant DEATHDEDUCTION, but the score can not go
+            //negative.
+            //
+            //Warning! This function will only respond to valid values of player ID numbers (1-4 inclusive). Check the
+            //validity of the numbers before calling this function.
+            if (shootingPlayer != playerHit) //Ignore if a player hits themselves
             {
-                case 1:
-                    if (Player1ScoreValue > 0 + deathDeduction)
-                    {
-                        switch (shootingPlayer)
+                switch (playerHit)
+                {
+                    case 1:
+                        if (Player1ScoreValue > 0 + DEATHDEDUCTION && Player1LivesCount > 0) //If player is alive and has points to lose, deduct points
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player1ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player1ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player1ScoreValue -= deathDeduction;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 2:
+                                    if (Player2LivesCount > 0) //Shooting player must be alive for the hit to count
+                                    {
+                                        Player1ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player1ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player1ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1ScoreValue = 0;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player1ScoreValue = 0;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player1ScoreValue = 0;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player1ScoreValue = 0;
-                                }
-                                break;
+                            //If the player has less points than DEATHDEDUCTION, then the score will go to zero to
+                            //prevent negative scores.
+                            switch (shootingPlayer)
+                            {
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player1ScoreValue = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player1ScoreValue = 0;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player1ScoreValue = 0;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    if (Player1LivesCount>0)
-                    {
-                        switch (shootingPlayer)
+                        if (Player1LivesCount > 0) //If shooting player is alive and player shot is alive, award points and deduct a life.
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1LivesCount--;
-                                    Player1ScoreValue += HitBonus;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player1LivesCount--;
-                                    Player2ScoreValue += HitBonus;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player1LivesCount--;
-                                    Player3ScoreValue += HitBonus;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player1LivesCount--;
-                                    Player4ScoreValue += HitBonus;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player1LivesCount--;
+                                        Player2ScoreValue += HITBONUS;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player1LivesCount--;
+                                        Player3ScoreValue += HITBONUS;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player1LivesCount--;
+                                        Player4ScoreValue += HITBONUS;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Player1LivesCount = 0;
-                    }
-                    break;
-                case 2:
-                    if (Player2ScoreValue > 0 + deathDeduction)
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player2ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player2ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player2ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player2ScoreValue -= deathDeduction;
-                                }
-                                break;
+                            Player1LivesCount = 0; //If the number of lives is not greater than 0, it must be equal to 0.
                         }
-                    }
-                    else
-                    {
-                        switch (shootingPlayer)
+                        break;
+                    case 2:
+                        if (Player2ScoreValue > 0 + DEATHDEDUCTION && Player2LivesCount > 0)
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player2ScoreValue = 0;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player2ScoreValue = 0;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player2ScoreValue = 0;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player2ScoreValue = 0;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player2ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player2ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player2ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    if (Player2LivesCount > 0)
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1ScoreValue += HitBonus;
-                                    Player2LivesCount--;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player2ScoreValue += HitBonus;
-                                    Player2LivesCount--;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player3ScoreValue += HitBonus;
-                                    Player2LivesCount--;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player4ScoreValue += HitBonus;
-                                    Player2LivesCount--;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player2ScoreValue = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player2ScoreValue = 0;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player2ScoreValue = 0;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Player2LivesCount = 0;
-                    }
-                    break;
-                case 3:
-                    if (Player3ScoreValue > 0 + deathDeduction)
-                    {
-                        switch (shootingPlayer)
+                        if (Player2LivesCount > 0)
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player3ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player3ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player3ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player3ScoreValue -= deathDeduction;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player1ScoreValue += HITBONUS;
+                                        Player2LivesCount--;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player3ScoreValue += HITBONUS;
+                                        Player2LivesCount--;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player4ScoreValue += HITBONUS;
+                                        Player2LivesCount--;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player3ScoreValue = 0;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player3ScoreValue = 0;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player3ScoreValue = 0;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player3ScoreValue = 0;
-                                }
-                                break;
+                            Player2LivesCount = 0;
                         }
-                    }
-                    if (Player3LivesCount > 0)
-                    {
-                        switch (shootingPlayer)
+                        break;
+                    case 3:
+                        if (Player3ScoreValue > 0 + DEATHDEDUCTION && Player3LivesCount > 0)
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1ScoreValue += HitBonus;
-                                    Player3LivesCount--;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player2ScoreValue += HitBonus;
-                                    Player3LivesCount--;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player3ScoreValue += HitBonus;
-                                    Player3LivesCount--;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player4ScoreValue += HitBonus;
-                                    Player3LivesCount--;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player3ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player3ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player3ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Player3LivesCount = 0;
-                    }
-                    break;
-                case 4:
-                    if (Player4ScoreValue > 0 + deathDeduction)
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player4ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player4ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player4ScoreValue -= deathDeduction;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player4ScoreValue -= deathDeduction;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player3ScoreValue = 0;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player3ScoreValue = 0;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player3ScoreValue = 0;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        switch (shootingPlayer)
+                        if (Player3LivesCount > 0)
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player4ScoreValue = 0;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player4ScoreValue = 0;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player4ScoreValue = 0;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player4ScoreValue = 0;
-                                }
-                                break;
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player1ScoreValue += HITBONUS;
+                                        Player3LivesCount--;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player2ScoreValue += HITBONUS;
+                                        Player3LivesCount--;
+                                    }
+                                    break;
+                                case 4:
+                                    if (Player4LivesCount > 0)
+                                    {
+                                        Player4ScoreValue += HITBONUS;
+                                        Player3LivesCount--;
+                                    }
+                                    break;
+                            }
                         }
-                    }
-                    if (Player4LivesCount > 0)
-                    {
-                        switch (shootingPlayer)
+                        else
                         {
-                            case 1:
-                                if (Player1LivesCount > 0)
-                                {
-                                    Player1ScoreValue += HitBonus;
-                                    Player4LivesCount--;
-                                }
-                                break;
-                            case 2:
-                                if (Player2LivesCount > 0)
-                                {
-                                    Player2ScoreValue += HitBonus;
-                                    Player4LivesCount--;
-                                }
-                                break;
-                            case 3:
-                                if (Player3LivesCount > 0)
-                                {
-                                    Player3ScoreValue += HitBonus;
-                                    Player4LivesCount--;
-                                }
-                                break;
-                            case 4:
-                                if (Player4LivesCount > 0)
-                                {
-                                    Player4ScoreValue += HitBonus;
-                                    Player4LivesCount--;
-                                }
-                                break;
+                            Player3LivesCount = 0;
                         }
-                    }
-                    else
-                    {
-                        Player4LivesCount = 0;
-                    }
-                    break;
+                        break;
+                    case 4:
+                        if (Player4ScoreValue > 0 + DEATHDEDUCTION && Player4LivesCount > 0)
+                        {
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player4ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player4ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player4ScoreValue -= DEATHDEDUCTION;
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player4ScoreValue = 0;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player4ScoreValue = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player4ScoreValue = 0;
+                                    }
+                                    break;
+                            }
+                        }
+                        if (Player4LivesCount > 0)
+                        {
+                            switch (shootingPlayer)
+                            {
+                                case 1:
+                                    if (Player1LivesCount > 0)
+                                    {
+                                        Player1ScoreValue += HITBONUS;
+                                        Player4LivesCount--;
+                                    }
+                                    break;
+                                case 2:
+                                    if (Player2LivesCount > 0)
+                                    {
+                                        Player2ScoreValue += HITBONUS;
+                                        Player4LivesCount--;
+                                    }
+                                    break;
+                                case 3:
+                                    if (Player3LivesCount > 0)
+                                    {
+                                        Player3ScoreValue += HITBONUS;
+                                        Player4LivesCount--;
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Player4LivesCount = 0;
+                        }
+                        break;
+                }
             }
         }
         public void AppendResults() //Appends the game scores to the file
         {
-            if (!Directory.Exists(SCOREFILEDIRECTORY))
+            if (File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
             {
-                Directory.CreateDirectory(SCOREFILEDIRECTORY);
-            }
-            if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
-            {
-                File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
-            }
-            StreamWriter WriteAccess = null;
-            try
-            {
-                using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                StreamWriter WriteAccess = null;
+                StreamReader ReadAccess = null;
+                try
                 {
-                    string[] fileData = GameScores.Text.Split('\n');
-                    foreach (var line in fileData)
+                    using (ReadAccess = new StreamReader(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME))
                     {
-                        WriteAccess.WriteLine(line);
-                    }
-                    WriteAccess.WriteLine();
-                    WriteAccess.WriteLine();
-                    WriteAccess.WriteLine("Final Game Scores:");
-                    WriteAccess.WriteLine();
-                    WriteAccess.WriteLine(Player1Label.Text);
-                    WriteAccess.WriteLine("\t" + Player1Score.Text);
-                    if (Player1LivesCount != 1)
-                    {
-                        WriteAccess.WriteLine("\t" + Player1LivesCount + " Lives");
-                    }
-                    else
-                    {
-                        WriteAccess.WriteLine("\t" + Player1LivesCount + " Life");
-                    }
-                    WriteAccess.WriteLine();
-                    WriteAccess.WriteLine(Player2Label.Text);
-                    WriteAccess.WriteLine("\t" + Player2Score.Text);
-                    if (Player2LivesCount != 1)
-                    {
-                        WriteAccess.WriteLine("\t" + Player2LivesCount + " Lives");
-                    }
-                    else
-                    {
-                        WriteAccess.WriteLine("\t" + Player2LivesCount + " Life");
-                    }
-                    WriteAccess.WriteLine();
-                    if (NumberOfTeams == 3 || NumberOfTeams == 4 || NumberOfTeams == 0)
-                    {
-                        WriteAccess.WriteLine(Player3Label.Text);
-                        WriteAccess.WriteLine("\t" + Player3Score.Text);
-                        if (Player3LivesCount != 1)
-                        {
-                            WriteAccess.WriteLine("\t" + Player3LivesCount + " Lives");
-                        }
-                        else
-                        {
-                            WriteAccess.WriteLine("\t" + Player3LivesCount + " Life");
-                        }
-                        WriteAccess.WriteLine();
-                    }
-                    if (NumberOfTeams == 4 || NumberOfTeams == 0)
-                    {
-                        WriteAccess.WriteLine(Player4Label.Text);
-                        WriteAccess.WriteLine("\t" + Player4Score.Text);
-                        if (Player4LivesCount != 1)
-                        {
-                            WriteAccess.WriteLine("\t" + Player4LivesCount + " Lives");
-                        }
-                        else
-                        {
-                            WriteAccess.WriteLine("\t" + Player4LivesCount + " Life");
-                        }
-                        WriteAccess.WriteLine();
+                        fileText = ReadAccess.ReadToEnd();
+                        ReadAccess.Close();
                     }
                 }
+                catch (IOException)
+                {
+                    MessageBox.Show("Error reading from file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                try
+                {
+                    using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                    {
+                        WriteAccess.Write(fileText);
+                        WriteAccess.WriteLine();
+                        WriteAccess.WriteLine("Final Game Scores:");
+                        WriteAccess.WriteLine();
+                        WriteAccess.WriteLine(Player1Label.Text);
+                        WriteAccess.WriteLine("\t" + Player1Score.Text);
+                        if (Player1LivesCount != 1)
+                        {
+                            WriteAccess.WriteLine("\t" + Player1LivesCount + " Lives");
+                        }
+                        else
+                        {
+                            WriteAccess.WriteLine("\t" + Player1LivesCount + " Life");
+                        }
+                        WriteAccess.WriteLine();
+                        WriteAccess.WriteLine(Player2Label.Text);
+                        WriteAccess.WriteLine("\t" + Player2Score.Text);
+                        if (Player2LivesCount != 1)
+                        {
+                            WriteAccess.WriteLine("\t" + Player2LivesCount + " Lives");
+                        }
+                        else
+                        {
+                            WriteAccess.WriteLine("\t" + Player2LivesCount + " Life");
+                        }
+                        WriteAccess.WriteLine();
+                        if (NumberOfTeams == 3 || NumberOfTeams == 4 || NumberOfTeams == 0)
+                        {
+                            WriteAccess.WriteLine(Player3Label.Text);
+                            WriteAccess.WriteLine("\t" + Player3Score.Text);
+                            if (Player3LivesCount != 1)
+                            {
+                                WriteAccess.WriteLine("\t" + Player3LivesCount + " Lives");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\t" + Player3LivesCount + " Life");
+                            }
+                            WriteAccess.WriteLine();
+                        }
+                        if (NumberOfTeams == 4 || NumberOfTeams == 0)
+                        {
+                            WriteAccess.WriteLine(Player4Label.Text);
+                            WriteAccess.WriteLine("\t" + Player4Score.Text);
+                            if (Player4LivesCount != 1)
+                            {
+                                WriteAccess.WriteLine("\t" + Player4LivesCount + " Lives");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\t" + Player4LivesCount + " Life");
+                            }
+                            WriteAccess.WriteLine();
+                        }
+                    }
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                WriteAccess.Close(); //Close read access to file
             }
-            catch (IOException)
-            {
-                MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            WriteAccess.Close(); //Close read access to file
-            updateGame();
         }
         public void ResetGame() //Called to clear all game data
         {
@@ -754,13 +716,14 @@ namespace Game_Control_Panel
                 GameStartTimeString += " ";
                 int duplicateFileNameCounter = 1;
                 while (File.Exists(SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY + "\\Robotag Game " + GameStartTimeString + ".txt"))
-                {
+                {//If this filename is already in use, try appending a number to the end.
                     GameStartTimeString = GameStartTimeString.TrimEnd(new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' });
                     GameStartTimeString += duplicateFileNameCounter.ToString();
                     duplicateFileNameCounter++;
                 }
                 File.Move(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME, SCOREFILEDIRECTORY + "\\" + ARCHIVEDIRECTORY + "\\Robotag Game " + GameStartTimeString + ".txt");
             }
+            //Reset to all default values
             Player1ScoreValue = 0;
             Player2ScoreValue = 0;
             Player3ScoreValue = 0;
