@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -43,7 +43,7 @@ namespace Game_Control_Panel
         }
         public void setNumberOfLives(int lives)
         {
-            if (lives > 0 && lives <= 6)
+            if (lives >= 0 && lives <= 6)
             {
                 numberOfLives = lives;
             }
