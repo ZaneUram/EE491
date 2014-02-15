@@ -56,10 +56,11 @@ namespace Game_Control_Panel
                 ScoreKeeperThread.Start();
                 //End code to resume scorekeeper
 
+                //Begin changing Start/Stop button settings
                 EStopButton.Enabled = true; //Enabling Emergency Stop button
                 EStopButton.Text = "Emergency Stop";
                 StartButton.Enabled = false; //Disabling Start button because while game is running you can not start another game.
-
+                //End changing Start/Stop button settings
 
                 //Starts code to write RESUMEKEYWORD
                 WriteKeyword(RESUMEKEYWORD);
@@ -126,7 +127,7 @@ namespace Game_Control_Panel
                 }
                 Scorekeeper.Enabled = true;
                 Scorekeeper.StartGame(NumberOfLives, message); //Tells the scorekeeping object to start the game will a set number of lives
-                ScoreKeeperThread = new Thread(new ThreadStart(updateGameData));
+                ScoreKeeperThread = new Thread(new ThreadStart(updateGameData)); //Runs in seperate thread so that other controls can be used while the game file is scanned
                 ScoreKeeperThread.Name = "ScoreKeeper Thread";
                 ScoreKeeperThread.Start();
                 //End code to start scorekeeper
@@ -142,7 +143,7 @@ namespace Game_Control_Panel
             DateTime FileLastAccessed=System.IO.File.GetCreationTime(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME);
             while (gameTimer.getTimerIsRunning())
             {
-                if (DateTime.Compare(FileLastAccessed, System.IO.File.GetLastWriteTime(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME)) < 0 || !File.Exists(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME)) //Only scans the file if it has changed since it was last accessed. Will also run i fthe file goes missing
+                if (DateTime.Compare(FileLastAccessed, System.IO.File.GetLastWriteTime(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME)) < 0 || !File.Exists(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME)) //Only scans the file if it has changed since it was last accessed. Will also run if the file goes missing
                 {
                     if (Scorekeeper.InvokeRequired) //if the thread acessing the object is not the same as the thread that created the text label
                     {
@@ -153,8 +154,8 @@ namespace Game_Control_Panel
                     {
                         Scorekeeper.updateGame();
                     }
-                    FileLastAccessed = DateTime.Now;
-                    if (Scorekeeper.OnePlayerRemaining())
+                    FileLastAccessed = DateTime.Now; //Update the veriable to the current time that the file was accessed
+                    if (Scorekeeper.OnePlayerRemaining()) //If only one player is alive the game should end.
                     {
                         WriteKeyword(ENDKEYWORD + " because only one player is remaining.");
                         //Then reload the file so that the GameScores textbox will show the ENDKEYWORD
@@ -167,7 +168,7 @@ namespace Game_Control_Panel
                         {
                             Scorekeeper.updateGame();
                         }
-                        timerThread.Abort();
+                        timerThread.Abort(); //End the timer because the game is over. Must be manually stopped to prevent duplicate timer threads being created while one thread is in sleep mode.
                         gameTimer.stopTimer();
                         if (EStopButton.InvokeRequired)//if the thread acessing the button is not the same as the thread that created the text label
                         {
@@ -202,8 +203,9 @@ namespace Game_Control_Panel
                 {
                     EStopButton.Text = "Reset Game"; //Change E-Stop button to a reset game button.
                 }
-                ScoreKeeperThread.Abort();
-                WriteKeyword(ENDKEYWORD);
+                ScoreKeeperThread.Abort(); //Manually abort this thread to prevent duplicate threads if a new thread is started while this thread is sleeping.
+                WriteKeyword(ENDKEYWORD); //Signal to the web server that the game has ended.
+                //Refresh the score results to show that the key word was written to the file.
                 if (EStopButton.InvokeRequired) //if the thread acessing the text label is not the same as the thread that created the text label
                 {
                     EStopButton.Invoke((MethodInvoker)(() => Scorekeeper.updateGame()));
@@ -230,7 +232,7 @@ namespace Game_Control_Panel
                 EStopButton.Text = "Reset Game"; //Change E-Stop button to a reset game button.
                 //Starts code to write ENDEKEYWORD
                 WriteKeyword(ENDKEYWORD);
-                Scorekeeper.updateGame();
+                Scorekeeper.updateGame(); //Refresh the game's score so that the end keyword is availible.
                 //Ends code to write ENDKEYWORD
             }
         }
