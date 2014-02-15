@@ -271,11 +271,11 @@ namespace Game_Control_Panel
         {
             //These switches and comparisons are made to adjust the score and lives as each hit is made.
             //These cases are made to ignore inaccurate records like:
-            //      A player can not shoot another player if they are dead.
-            //      A player can to be shot if they are dead.
-            //      A player can not shoot themselves.
-            //      A player can not have negative points.
-            //      A player can not have negative lives.
+            //      A player or team can not shoot another player if they are dead.
+            //      A player or team can to be shot if they are dead.
+            //      A player or team can not shoot themselves.
+            //      A player or team can not have negative points.
+            //      A player or team can not have negative lives.
             //A successful hit will increase the player's score by a constant HITBONUS
             //A death will result in a deduction of points based on a constant DEATHDEDUCTION, but the score can not go
             //negative.
