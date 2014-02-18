@@ -362,6 +362,7 @@ namespace Game_Control_Panel
                         WriteAccess.WriteLine();
                     }
                     WriteAccess.WriteLine("{0}\t{1}", DateTime.Now.ToLongTimeString(), KEYWORD);
+                    Thread.Sleep(100);//Keeps the keyword in place for 100 miliseconds to ensure that the Game Server has time to read the keyword from the file.
                     WriteAccess.Close();
                 }
             }
