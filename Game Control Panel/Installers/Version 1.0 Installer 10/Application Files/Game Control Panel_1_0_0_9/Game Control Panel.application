@@ -7,7 +7,7 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\Game Control Panel_1_0_0_8\Game Control Panel.exe.manifest" size="5088">
+    <dependentAssembly dependencyType="install" codebase="Application Files\Game Control Panel_1_0_0_9\Game Control Panel.exe.manifest" size="5088">
       <assemblyIdentity name="Game Control Panel.exe" version="1.0.0.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
