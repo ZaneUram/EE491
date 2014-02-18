@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel Installers\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Installers\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel Release A\|publish\</PublishUrlHistory>
+    <PublishUrlHistory>publish\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel Installers\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Installers\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel Release A\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
     <UpdateUrlHistory />
