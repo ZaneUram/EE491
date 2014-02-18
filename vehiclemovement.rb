@@ -2,10 +2,10 @@
 
 # def control_main(A1,A2,B1,B2,PWMA,PWMB)
 
-A1 = 1
-A2 = 1
-B1 = 1
-B2 = 1
+A1 = 0
+A2 = 0
+B1 = 0
+B2 = 0
 
 PWMA = nil
 PWMB = nil
