@@ -3845,7 +3845,7 @@ Button}</string>
 	<key>WindowInfo</key>
 	<dict>
 		<key>CurrentSheet</key>
-		<integer>0</integer>
+		<integer>3</integer>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
