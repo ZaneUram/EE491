@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInterface));
             this.GameSettingsLabel = new System.Windows.Forms.Label();
             this.NumberOfLivesLabel = new System.Windows.Forms.Label();
@@ -42,14 +43,20 @@
             this.TeamGameRadioButton = new System.Windows.Forms.RadioButton();
             this.NumberOfTeamsLabel = new System.Windows.Forms.Label();
             this.NumberOfTeamsComboBox = new System.Windows.Forms.ComboBox();
+            this.MenuBar = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
+            this.MenuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // GameSettingsLabel
             // 
             this.GameSettingsLabel.AutoSize = true;
             this.GameSettingsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GameSettingsLabel.Location = new System.Drawing.Point(12, 9);
+            this.GameSettingsLabel.Location = new System.Drawing.Point(12, 24);
             this.GameSettingsLabel.Name = "GameSettingsLabel";
             this.GameSettingsLabel.Size = new System.Drawing.Size(157, 26);
             this.GameSettingsLabel.TabIndex = 0;
@@ -58,7 +65,7 @@
             // NumberOfLivesLabel
             // 
             this.NumberOfLivesLabel.AutoSize = true;
-            this.NumberOfLivesLabel.Location = new System.Drawing.Point(35, 35);
+            this.NumberOfLivesLabel.Location = new System.Drawing.Point(35, 50);
             this.NumberOfLivesLabel.Name = "NumberOfLivesLabel";
             this.NumberOfLivesLabel.Size = new System.Drawing.Size(84, 13);
             this.NumberOfLivesLabel.TabIndex = 1;
@@ -76,7 +83,7 @@
             "4 Lives",
             "5 Lives",
             "6 Lives"});
-            this.NumberOfLivesComboBox.Location = new System.Drawing.Point(38, 51);
+            this.NumberOfLivesComboBox.Location = new System.Drawing.Point(38, 66);
             this.NumberOfLivesComboBox.Name = "NumberOfLivesComboBox";
             this.NumberOfLivesComboBox.Size = new System.Drawing.Size(129, 21);
             this.NumberOfLivesComboBox.TabIndex = 2;
@@ -85,7 +92,7 @@
             // GameLengthLabel
             // 
             this.GameLengthLabel.AutoSize = true;
-            this.GameLengthLabel.Location = new System.Drawing.Point(35, 75);
+            this.GameLengthLabel.Location = new System.Drawing.Point(35, 90);
             this.GameLengthLabel.Name = "GameLengthLabel";
             this.GameLengthLabel.Size = new System.Drawing.Size(71, 13);
             this.GameLengthLabel.TabIndex = 3;
@@ -116,7 +123,7 @@
             "50 Minutes",
             "55 Minutes",
             "60 Minutes"});
-            this.GameLengthComboBox.Location = new System.Drawing.Point(38, 91);
+            this.GameLengthComboBox.Location = new System.Drawing.Point(38, 106);
             this.GameLengthComboBox.Name = "GameLengthComboBox";
             this.GameLengthComboBox.Size = new System.Drawing.Size(129, 21);
             this.GameLengthComboBox.TabIndex = 4;
@@ -168,7 +175,7 @@
             // 
             this.IndividualGameRadioButton.AutoSize = true;
             this.IndividualGameRadioButton.Checked = true;
-            this.IndividualGameRadioButton.Location = new System.Drawing.Point(188, 33);
+            this.IndividualGameRadioButton.Location = new System.Drawing.Point(188, 48);
             this.IndividualGameRadioButton.Name = "IndividualGameRadioButton";
             this.IndividualGameRadioButton.Size = new System.Drawing.Size(101, 17);
             this.IndividualGameRadioButton.TabIndex = 6;
@@ -180,7 +187,7 @@
             // TeamGameRadioButton
             // 
             this.TeamGameRadioButton.AutoSize = true;
-            this.TeamGameRadioButton.Location = new System.Drawing.Point(188, 52);
+            this.TeamGameRadioButton.Location = new System.Drawing.Point(188, 67);
             this.TeamGameRadioButton.Name = "TeamGameRadioButton";
             this.TeamGameRadioButton.Size = new System.Drawing.Size(83, 17);
             this.TeamGameRadioButton.TabIndex = 7;
@@ -190,7 +197,7 @@
             // NumberOfTeamsLabel
             // 
             this.NumberOfTeamsLabel.AutoSize = true;
-            this.NumberOfTeamsLabel.Location = new System.Drawing.Point(183, 75);
+            this.NumberOfTeamsLabel.Location = new System.Drawing.Point(183, 90);
             this.NumberOfTeamsLabel.Name = "NumberOfTeamsLabel";
             this.NumberOfTeamsLabel.Size = new System.Drawing.Size(91, 13);
             this.NumberOfTeamsLabel.TabIndex = 8;
@@ -205,21 +212,55 @@
             "2 Teams",
             "3 Teams",
             "4 Teams"});
-            this.NumberOfTeamsComboBox.Location = new System.Drawing.Point(186, 91);
+            this.NumberOfTeamsComboBox.Location = new System.Drawing.Point(186, 106);
             this.NumberOfTeamsComboBox.Name = "NumberOfTeamsComboBox";
             this.NumberOfTeamsComboBox.Size = new System.Drawing.Size(129, 21);
             this.NumberOfTeamsComboBox.TabIndex = 9;
             this.NumberOfTeamsComboBox.Visible = false;
             this.NumberOfTeamsComboBox.SelectedIndexChanged += new System.EventHandler(this.NumberOfTeamsComboBox_SelectedIndexChanged);
             // 
+            // MenuBar
+            // 
+            this.MenuBar.BackColor = System.Drawing.SystemColors.Menu;
+            this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.MenuBar.Location = new System.Drawing.Point(0, 0);
+            this.MenuBar.Name = "MenuBar";
+            this.MenuBar.Size = new System.Drawing.Size(624, 24);
+            this.MenuBar.TabIndex = 15;
+            this.MenuBar.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
             // Scorekeeper
             // 
             this.Scorekeeper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Scorekeeper.Location = new System.Drawing.Point(350, 0);
+            this.Scorekeeper.Location = new System.Drawing.Point(350, 12);
             this.Scorekeeper.Name = "Scorekeeper";
-            this.Scorekeeper.Size = new System.Drawing.Size(275, 450);
+            this.Scorekeeper.Size = new System.Drawing.Size(275, 438);
             this.Scorekeeper.TabIndex = 14;
             // 
             // UserInterface
@@ -241,12 +282,16 @@
             this.Controls.Add(this.NumberOfLivesComboBox);
             this.Controls.Add(this.NumberOfLivesLabel);
             this.Controls.Add(this.GameSettingsLabel);
+            this.Controls.Add(this.MenuBar);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.MenuBar;
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "UserInterface";
             this.Text = "RoboTag Game Control Panel";
             this.TransparencyKey = System.Drawing.Color.LightPink;
+            this.MenuBar.ResumeLayout(false);
+            this.MenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -268,6 +313,11 @@
         private System.Windows.Forms.ComboBox NumberOfTeamsComboBox;
         private System.Windows.Forms.ComboBox NumberOfLivesComboBox;
         private ScoreControl Scorekeeper;
+        private System.Windows.Forms.MenuStrip MenuBar;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

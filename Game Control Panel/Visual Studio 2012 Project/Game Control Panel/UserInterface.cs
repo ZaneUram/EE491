@@ -27,6 +27,15 @@ namespace Game_Control_Panel
         public UserInterface()
         {
             InitializeComponent();
+            //Begin setting tool tips for controls
+            toolTip.SetToolTip(NumberOfLivesComboBox, "This drop down allows the attraction host to specify the number of lives available for each player.");
+            toolTip.SetToolTip(GameLengthComboBox, "This allows the attraction host to specify the length of the game.");
+            toolTip.SetToolTip(IndividualGameRadioButton, "This allows the attraction host to specify an individual game.");
+            toolTip.SetToolTip(TeamGameRadioButton, "This allows the attraction host to specify a team game.");
+            toolTip.SetToolTip(NumberOfTeamsComboBox, "This allows the attraction host to specify the number of teams.");
+            toolTip.SetToolTip(StartButton, "This button will start or resume the gameplay.");
+            toolTip.SetToolTip(EStopButton, "This button will stop an active the gameplay in the event of an emergency.\nIf the game has already been stopped this button can also be used to reset the game.\nThe text of the button will change to indicate if the button will stop or reset the game.");
+            //End setting tool tips for controls
             ResetGame(); //Sets default game values
         }
         private void StartButton_Click(object sender, EventArgs e)
@@ -370,6 +379,16 @@ namespace Game_Control_Panel
             {
                 MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Game Control Panel\n\nVersion 1.1", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Application.StartupPath + "\\GameControlPanelHelp.chm");
         }
     }
 }
