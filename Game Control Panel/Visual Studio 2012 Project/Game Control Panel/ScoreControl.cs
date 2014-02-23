@@ -37,6 +37,19 @@ namespace Game_Control_Panel
         StreamReader Stream = null;
         Regex expression = new Regex("Player\\d"); //Keyword scanning for is PlayerX where X is a number
         String fileText; //Used to store the contents of the file after reading in updating game or appending text to the file.
+        //The next set of variables are used to append the output showing how many times each player has been shot each of their opponents.
+        private int Player1ShotsFromPlayer2 = 0;
+        private int Player1ShotsFromPlayer3 = 0;
+        private int Player1ShotsFromPlayer4 = 0;
+        private int Player2ShotsFromPlayer1 = 0;
+        private int Player2ShotsFromPlayer3 = 0;
+        private int Player2ShotsFromPlayer4 = 0;
+        private int Player3ShotsFromPlayer1 = 0;
+        private int Player3ShotsFromPlayer2 = 0;
+        private int Player3ShotsFromPlayer4 = 0;
+        private int Player4ShotsFromPlayer1 = 0;
+        private int Player4ShotsFromPlayer2 = 0;
+        private int Player4ShotsFromPlayer3 = 0;
         public ScoreControl()
         {
             InitializeComponent();
@@ -202,6 +215,18 @@ namespace Game_Control_Panel
             Player2LivesCount = numberOfLives;
             Player3LivesCount = numberOfLives;
             Player4LivesCount = numberOfLives;
+            Player1ShotsFromPlayer2 = 0;
+            Player1ShotsFromPlayer3 = 0;
+            Player1ShotsFromPlayer4 = 0;
+            Player2ShotsFromPlayer1 = 0;
+            Player2ShotsFromPlayer3 = 0;
+            Player2ShotsFromPlayer4 = 0;
+            Player3ShotsFromPlayer1 = 0;
+            Player3ShotsFromPlayer2 = 0;
+            Player3ShotsFromPlayer4 = 0;
+            Player4ShotsFromPlayer1 = 0;
+            Player4ShotsFromPlayer2 = 0;
+            Player4ShotsFromPlayer3 = 0;
             for (int i = 0; i < fileLines.Length; i++)
 			{
                 if (expression.Matches(fileLines[i]).Count==2) //Each line with a hit should have two epressions of PlayerX
@@ -346,6 +371,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1LivesCount--;
                                         Player2ScoreValue += HITBONUS;
+                                        Player1ShotsFromPlayer2++;
                                     }
                                     break;
                                 case 3:
@@ -353,6 +379,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1LivesCount--;
                                         Player3ScoreValue += HITBONUS;
+                                        Player1ShotsFromPlayer3++;
                                     }
                                     break;
                                 case 4:
@@ -360,6 +387,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1LivesCount--;
                                         Player4ScoreValue += HITBONUS;
+                                        Player1ShotsFromPlayer4++;
                                     }
                                     break;
                             }
@@ -427,6 +455,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1ScoreValue += HITBONUS;
                                         Player2LivesCount--;
+                                        Player2ShotsFromPlayer1++;
                                     }
                                     break;
                                 case 3:
@@ -434,6 +463,7 @@ namespace Game_Control_Panel
                                     {
                                         Player3ScoreValue += HITBONUS;
                                         Player2LivesCount--;
+                                        Player2ShotsFromPlayer3++;
                                     }
                                     break;
                                 case 4:
@@ -441,6 +471,7 @@ namespace Game_Control_Panel
                                     {
                                         Player4ScoreValue += HITBONUS;
                                         Player2LivesCount--;
+                                        Player2ShotsFromPlayer4++;
                                     }
                                     break;
                             }
@@ -508,6 +539,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1ScoreValue += HITBONUS;
                                         Player3LivesCount--;
+                                        Player3ShotsFromPlayer1++;
                                     }
                                     break;
                                 case 2:
@@ -515,6 +547,7 @@ namespace Game_Control_Panel
                                     {
                                         Player2ScoreValue += HITBONUS;
                                         Player3LivesCount--;
+                                        Player3ShotsFromPlayer2++;
                                     }
                                     break;
                                 case 4:
@@ -522,6 +555,7 @@ namespace Game_Control_Panel
                                     {
                                         Player4ScoreValue += HITBONUS;
                                         Player3LivesCount--;
+                                        Player3ShotsFromPlayer4++;
                                     }
                                     break;
                             }
@@ -589,6 +623,7 @@ namespace Game_Control_Panel
                                     {
                                         Player1ScoreValue += HITBONUS;
                                         Player4LivesCount--;
+                                        Player4ShotsFromPlayer1++;
                                     }
                                     break;
                                 case 2:
@@ -596,6 +631,7 @@ namespace Game_Control_Panel
                                     {
                                         Player2ScoreValue += HITBONUS;
                                         Player4LivesCount--;
+                                        Player4ShotsFromPlayer2++;
                                     }
                                     break;
                                 case 3:
@@ -603,6 +639,7 @@ namespace Game_Control_Panel
                                     {
                                         Player3ScoreValue += HITBONUS;
                                         Player4LivesCount--;
+                                        Player4ShotsFromPlayer3++;
                                     }
                                     break;
                             }
@@ -651,7 +688,41 @@ namespace Game_Control_Panel
                         {
                             WriteAccess.WriteLine("\t" + Player1LivesCount + " Life");
                         }
+                        if (Player1ShotsFromPlayer2 > 0)
+                        {
+                            if (Player1ShotsFromPlayer2 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player1ShotsFromPlayer2 + " Times");
+                            }
+                        }
+                        if (Player1ShotsFromPlayer3 > 0)
+                        {
+                            if (Player1ShotsFromPlayer3 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player1ShotsFromPlayer3 + " Times");
+                            }
+                        }
+                        if (Player1ShotsFromPlayer4 > 0)
+                        {
+                            if (Player1ShotsFromPlayer4 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player1ShotsFromPlayer4 + " Times");
+                            }
+                        }
                         WriteAccess.WriteLine();
+
                         WriteAccess.WriteLine(Player2Label.Text);
                         WriteAccess.WriteLine("\t" + Player2Score.Text);
                         if (Player2LivesCount != 1)
@@ -662,7 +733,41 @@ namespace Game_Control_Panel
                         {
                             WriteAccess.WriteLine("\t" + Player2LivesCount + " Life");
                         }
+                        if (Player2ShotsFromPlayer1 > 0)
+                        {
+                            if (Player2ShotsFromPlayer1 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player2ShotsFromPlayer1 + " Times");
+                            }
+                        }
+                        if (Player2ShotsFromPlayer3 > 0)
+                        {
+                            if (Player2ShotsFromPlayer3 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player2ShotsFromPlayer3 + " Times");
+                            }
+                        }
+                        if (Player2ShotsFromPlayer4 > 0)
+                        {
+                            if (Player2ShotsFromPlayer4 == 1)
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
+                            }
+                            else
+                            {
+                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player2ShotsFromPlayer4 + " Times");
+                            }
+                        }
                         WriteAccess.WriteLine();
+
                         if (NumberOfTeams == 3 || NumberOfTeams == 4 || NumberOfTeams == 0)
                         {
                             WriteAccess.WriteLine(Player3Label.Text);
@@ -675,7 +780,41 @@ namespace Game_Control_Panel
                             {
                                 WriteAccess.WriteLine("\t" + Player3LivesCount + " Life");
                             }
+                            if (Player3ShotsFromPlayer1 > 0)
+                            {
+                                if (Player3ShotsFromPlayer1 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player3ShotsFromPlayer1 + " Times");
+                                }
+                            }
+                            if (Player3ShotsFromPlayer2 > 0)
+                            {
+                                if (Player3ShotsFromPlayer2 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player3ShotsFromPlayer2 + " Times");
+                                }
+                            }
+                            if (Player3ShotsFromPlayer4 > 0)
+                            {
+                                if (Player3ShotsFromPlayer4 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player3ShotsFromPlayer4 + " Times");
+                                }
+                            }
                             WriteAccess.WriteLine();
+
                         }
                         if (NumberOfTeams == 4 || NumberOfTeams == 0)
                         {
@@ -688,6 +827,39 @@ namespace Game_Control_Panel
                             else
                             {
                                 WriteAccess.WriteLine("\t" + Player4LivesCount + " Life");
+                            }
+                            if (Player4ShotsFromPlayer1 > 0)
+                            {
+                                if (Player4ShotsFromPlayer1 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player4ShotsFromPlayer1 + " Times");
+                                }
+                            }
+                            if (Player4ShotsFromPlayer2 > 0)
+                            {
+                                if (Player4ShotsFromPlayer2 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player4ShotsFromPlayer2 + " Times");
+                                }
+                            }
+                            if (Player4ShotsFromPlayer3 > 0)
+                            {
+                                if (Player4ShotsFromPlayer3 == 1)
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
+                                }
+                                else
+                                {
+                                    WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player4ShotsFromPlayer3 + " Times");
+                                }
                             }
                             WriteAccess.WriteLine();
                         }
@@ -740,6 +912,18 @@ namespace Game_Control_Panel
             Player2Lives.Value = 0;
             Player3Lives.Value = 0;
             Player4Lives.Value = 0;
+            Player1ShotsFromPlayer2 = 0;
+            Player1ShotsFromPlayer3 = 0;
+            Player1ShotsFromPlayer4 = 0;
+            Player2ShotsFromPlayer1 = 0;
+            Player2ShotsFromPlayer3 = 0;
+            Player2ShotsFromPlayer4 = 0;
+            Player3ShotsFromPlayer1 = 0;
+            Player3ShotsFromPlayer2 = 0;
+            Player3ShotsFromPlayer4 = 0;
+            Player4ShotsFromPlayer1 = 0;
+            Player4ShotsFromPlayer2 = 0;
+            Player4ShotsFromPlayer3 = 0;
             GameScores.Text = "";
         }
     }

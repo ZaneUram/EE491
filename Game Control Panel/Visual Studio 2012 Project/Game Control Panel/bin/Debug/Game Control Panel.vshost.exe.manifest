@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game Control Panel.exe" size="117760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Game Control Panel.exe" size="120320">
       <assemblyIdentity name="Game Control Panel" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>js7t5Dm7s08b8c8oBWd+ZIM7ph4=</dsig:DigestValue>
+        <dsig:DigestValue>awuf4hYfnDcKVggyf6T2mQBEj1o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -63,13 +63,13 @@
       <dsig:DigestValue>KuG/PYEMWqnafbLs/ye45mWjYJM=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GameControlPanelHelp.chm" size="3047927">
+  <file name="GameControlPanelHelp.chm" size="3085249">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>XE1QlwUhNHnCddTPmON/qDXSIZ0=</dsig:DigestValue>
+      <dsig:DigestValue>d+PXAIrzAKMAILGSxmHPoyZnlVQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Program Icon.ico" size="40510">

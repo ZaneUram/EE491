@@ -14,6 +14,7 @@ namespace Game_Control_Panel
 {
     public partial class UserInterface : Form
     {
+        const string version = "Game Control Panel Version 1.1";
         private int NumberOfLives = 6;
         private int GameLength = 5; //measured in minutes
         private int NumberOfTeams = 0; //Valid values are 0, 2, 3, and 4
@@ -107,7 +108,8 @@ namespace Game_Control_Panel
                 //End changing Start/Stop button settings
 
                 //Begins code to start scorekeeper
-                string message = "Robotag Game\n\n";
+                string message = "Robotag Game\n";
+                message = message + version + "\n\n";
                 message = message + "Game Started: " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + "\n";
                 message = message + "Game settings:\n\t";
                 if (NumberOfLives != 1)
@@ -383,7 +385,7 @@ namespace Game_Control_Panel
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Game Control Panel\n\nVersion 1.1", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(version, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
