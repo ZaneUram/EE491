@@ -1,16 +1,16 @@
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.exe.config
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.exe.manifest
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.application
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.exe
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.pdb
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game_Control_Panel.ScoreControl.resources
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game_Control_Panel.UserInterface.resources
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game_Control_Panel.Properties.Resources.resources
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\GameControlPanel.csproj.GenerateResource.Cache
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.TrustInfo.xml
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.exe.manifest
-C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.application
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.exe
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.pdb
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\GameControlPanelHelp.chm
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\GameControlPanel.csprojResolveAssemblyReference.cache
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.exe.manifest
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\bin\Debug\Game Control Panel.application
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.TrustInfo.xml
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.exe.manifest
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.application

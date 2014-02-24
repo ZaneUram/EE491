@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>ftp://www.davidsutton.cn/public_html/robotag/|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Installers\Test Installer Version 1.1\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\|C:\Game Control Panel Installers\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Game Control Panel Installers\</PublishUrlHistory>
+    <PublishUrlHistory>ftp://www.davidsutton.cn/public_html/robotag/|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Installers\Version 1.1 Installer\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\|C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Installers\Test Installer Version 1.1\|C:\Game Control Panel Installers\</PublishUrlHistory>
     <InstallUrlHistory>http://www.davidsutton.cn/robotag/|http://www.davidsutton.cn/RobotagC/|http://www.davidsutton.cn/RobotagB/|http://www.davidsutton.cn/RobotagA/|http://www.davidsutton.cn/Robotag/</InstallUrlHistory>
     <SupportUrlHistory>http://www.DavidSutton.cn/robotag/help|http://www.DavidSutton.cn/robotag</SupportUrlHistory>
     <UpdateUrlHistory />
