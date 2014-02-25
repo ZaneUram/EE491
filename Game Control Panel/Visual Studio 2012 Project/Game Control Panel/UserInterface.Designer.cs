@@ -48,6 +48,8 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.openHelpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHelpWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
             this.MenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -221,7 +223,7 @@
             // 
             // MenuBar
             // 
-            this.MenuBar.BackColor = System.Drawing.SystemColors.Menu;
+            this.MenuBar.BackColor = System.Drawing.SystemColors.Control;
             this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -248,10 +250,27 @@
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openHelpFileToolStripMenuItem,
+            this.viewHelpWebsiteToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
+            // openHelpFileToolStripMenuItem
+            // 
+            this.openHelpFileToolStripMenuItem.Name = "openHelpFileToolStripMenuItem";
+            this.openHelpFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.openHelpFileToolStripMenuItem.Text = "Open Help File";
+            this.openHelpFileToolStripMenuItem.Click += new System.EventHandler(this.openHelpFileToolStripMenuItem_Click);
+            // 
+            // viewHelpWebsiteToolStripMenuItem
+            // 
+            this.viewHelpWebsiteToolStripMenuItem.Name = "viewHelpWebsiteToolStripMenuItem";
+            this.viewHelpWebsiteToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.viewHelpWebsiteToolStripMenuItem.Text = "View Help Website";
+            this.viewHelpWebsiteToolStripMenuItem.Click += new System.EventHandler(this.viewHelpWebsiteToolStripMenuItem_Click);
             // 
             // Scorekeeper
             // 
@@ -318,6 +337,8 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripMenuItem openHelpFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewHelpWebsiteToolStripMenuItem;
     }
 }
 

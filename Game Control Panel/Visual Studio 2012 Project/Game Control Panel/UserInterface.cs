@@ -388,9 +388,19 @@ namespace Game_Control_Panel
             MessageBox.Show(version, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openHelpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Application.StartupPath + "\\GameControlPanelHelp.chm");
+        }
+
+        private void viewHelpWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.davidsutton.cn/robotag/help");
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

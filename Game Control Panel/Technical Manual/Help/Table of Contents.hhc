@@ -59,6 +59,10 @@
 			<param name="Local" value="Installation.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Installing Updates">
+			<param name="Local" value="Updates.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Uninstallation">
 			<param name="Local" value="Uninstallation.html">
 			</OBJECT>
