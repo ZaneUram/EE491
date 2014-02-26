@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -19,6 +19,7 @@ namespace Game_Control_Panel
 {
     public partial class ScoreControl : UserControl
     {
+        private Translation Translator = new Translation();
         private int numberOfLives = 6; //Number of lives in the game. Game default 6, but changed when the game starts Valid values 1-6 inclusive
         private int Player1ScoreValue = 0;
         private int Player2ScoreValue = 0;
@@ -31,11 +32,11 @@ namespace Game_Control_Panel
         private const int HITBONUS = 100; //The number of points gained from a successful shot
         private const int DEATHDEDUCTION = 25; //The number of points lost from a player's death
         private int NumberOfTeams = 0; //Defualt value 0, but changed as user changes form settings Valid values are 0, 2, 3, and 4
-        public const string SCOREFILEDIRECTORY = "c://Robotag";
-        public const string SCOREFILENAME = "GameScores.txt";
-        public const string ARCHIVEDIRECTORY = "Archives";
+        public const string SCOREFILEDIRECTORY = "c://Robotag";//This is not translated because the Game Server relies on this constant file path
+        public const string SCOREFILENAME = "GameScores.txt";//This is not translated because the Game Server relies on this constant file path
+        public const string ARCHIVEDIRECTORY = "Archives";//This is not translated because the Game Server relies on this constant file path
         StreamReader Stream = null;
-        Regex expression = new Regex("Player\\d"); //Keyword scanning for is PlayerX where X is a number
+        Regex expression = new Regex("Player\\d|player\\d|Player \\d|player \\d|Team\\d|team\\d|Team \\d|team \\d|选手 \\d|选手\\d|队 \\d|队\\d"); //Keyword scanning for is PlayerX, TeamX, 选手X, or 队X where X is a number. These forms will also respond if the first letter is not capitalized or if there is a space between the word and X.
         String fileText; //Used to store the contents of the file after reading in updating game or appending text to the file.
         //The next set of variables are used to append the output showing how many times each player has been shot each of their opponents.
         private int Player1ShotsFromPlayer2 = 0;
@@ -83,10 +84,10 @@ namespace Game_Control_Panel
                     Player4Label.Visible=false;
                     Player4Lives.Visible=false;
                     Player4Score.Visible=false;
-                    Player1Label.Text = "Team 1";
-                    Player2Label.Text = "Team 2";
-                    Player3Label.Text = "Team 3";
-                    Player4Label.Text = "Team 4";
+                    Player1Label.Text =  Translator.GetWord(Translation.WORDS.Team1);
+                    Player2Label.Text =  Translator.GetWord(Translation.WORDS.Team2);
+                    Player3Label.Text =  Translator.GetWord(Translation.WORDS.Team3);
+                    Player4Label.Text =  Translator.GetWord(Translation.WORDS.Team4);
                     break;
                 case 3:
                     //Players 1 and 2 are not forced to a visible state because they are never hidden
@@ -96,10 +97,10 @@ namespace Game_Control_Panel
                     Player4Label.Visible = false;
                     Player4Lives.Visible = false;
                     Player4Score.Visible = false;
-                    Player1Label.Text = "Team 1";
-                    Player2Label.Text = "Team 2";
-                    Player3Label.Text = "Team 3";
-                    Player4Label.Text = "Team 4";
+                    Player1Label.Text =  Translator.GetWord(Translation.WORDS.Team1);
+                    Player2Label.Text =  Translator.GetWord(Translation.WORDS.Team2);
+                    Player3Label.Text =  Translator.GetWord(Translation.WORDS.Team3);
+                    Player4Label.Text =  Translator.GetWord(Translation.WORDS.Team4);
                     break;
                 case 4:
                     //Players 1 and 2 are not forced to a visible state because they are never hidden
@@ -109,10 +110,10 @@ namespace Game_Control_Panel
                     Player4Label.Visible = true;
                     Player4Lives.Visible = true;
                     Player4Score.Visible = true;
-                    Player1Label.Text = "Team 1";
-                    Player2Label.Text = "Team 2";
-                    Player3Label.Text = "Team 3";
-                    Player4Label.Text = "Team 4";
+                    Player1Label.Text =  Translator.GetWord(Translation.WORDS.Team1);
+                    Player2Label.Text =  Translator.GetWord(Translation.WORDS.Team2);
+                    Player3Label.Text =  Translator.GetWord(Translation.WORDS.Team3);
+                    Player4Label.Text =  Translator.GetWord(Translation.WORDS.Team4);
                     break;
                 default:
                 case 0:
@@ -123,10 +124,10 @@ namespace Game_Control_Panel
                     Player4Label.Visible = true;
                     Player4Lives.Visible = true;
                     Player4Score.Visible = true;
-                    Player1Label.Text = "Player 1";
-                    Player2Label.Text = "Player 2";
-                    Player3Label.Text = "Player 3";
-                    Player4Label.Text = "Player 4";
+                    Player1Label.Text =  Translator.GetWord(Translation.WORDS.Player1);
+                    Player2Label.Text =  Translator.GetWord(Translation.WORDS.Player2);
+                    Player3Label.Text =  Translator.GetWord(Translation.WORDS.Player3);
+                    Player4Label.Text =  Translator.GetWord(Translation.WORDS.Player4);
                     break;
             }
         }
@@ -161,13 +162,14 @@ namespace Game_Control_Panel
             }
             catch (IOException)
             {
-                MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorWritingToFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            WriteAccess.Close(); //Close read access to file
+            WriteAccess.Close(); //Close write access to file
             updateGame();
         }
         public void updateGame()
         {
+            StreamWriter WriteAccess = null;
             if (!Directory.Exists(SCOREFILEDIRECTORY))
             {
                 Directory.CreateDirectory(SCOREFILEDIRECTORY);
@@ -175,18 +177,17 @@ namespace Game_Control_Panel
             if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
             {
                 File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
-                StreamWriter WriteAccess = null;
                 try
                 {
                     using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
                     {
-                        WriteAccess.WriteLine("{0}\tERROR: {1} was not found and was replaced by a blank {1}", DateTime.Now.ToLongTimeString(), SCOREFILENAME);
+                        WriteAccess.WriteLine("{0}\t{1}", DateTime.Now.ToLongTimeString(), Translator.GetWord(Translation.WORDS.FileNotFoundErrorMessage)); 
                         WriteAccess.Close();
                     }
                 }
                 catch (IOException)
                 {
-                    MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorWritingToFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             try
@@ -198,10 +199,9 @@ namespace Game_Control_Panel
             }
             catch (IOException)
             {
-                MessageBox.Show("Error reading from file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorReadingFromFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Stream.Close();
-            GameScores.Text = fileText;
             string[] fileLines = fileText.Split('\n'); //Used for looking at each line individually
             Match hitData;
             int shootingPlayer;
@@ -232,8 +232,12 @@ namespace Game_Control_Panel
                 if (expression.Matches(fileLines[i]).Count==2) //Each line with a hit should have two epressions of PlayerX
                 {
                     hitData = expression.Match(fileLines[i]);
+                    int firstMatchIndex = hitData.Index;
+                    int firstMatchLength = hitData.Length;
                     shootingPlayer = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString()); //Get the int form of the shooting player's Player number
                     hitData=hitData.NextMatch(); //The next match is the player who was hit
+                    int secondMatchIndex=hitData.Index;
+                    int secondMatchLength = hitData.Length;
                     playerHit = Convert.ToInt32(Regex.Match(hitData.ToString(), @"\d").ToString());//Get the int form of the recieving player's Player number
                     if (NumberOfTeams == 0)
                     {
@@ -249,8 +253,99 @@ namespace Game_Control_Panel
                             ScoreHit(shootingPlayer, playerHit);
                         }
                     }
+                    //Reformat the line for better readability if nessicary. These steps are performed in a particular order becuase the changes to the string could also change where the index references
+                    if (secondMatchIndex + secondMatchLength != fileLines[i].Length)//if there is anything following the end of the line
+                    {
+                        fileLines[i] = fileLines[i].Remove(secondMatchIndex + secondMatchLength);//Remove anything following the second match
+                        fileLines[i] = fileLines[i] + "\r";//Adds the return character back in place so notepad can display a new line (notepad.exe looks for \r\n)
+                    }
+                    fileLines[i]=fileLines[i].Remove(firstMatchIndex+firstMatchLength,secondMatchIndex-(firstMatchIndex+firstMatchLength)); //Remove anything between the two PlayerX style keywords
+                    fileLines[i]=fileLines[i].Insert(firstMatchIndex + firstMatchLength, Translator.GetWord(Translation.WORDS.Shot)); //Insert the word shot to form "PlayerX shot PlayerY"
+                    if (firstMatchIndex == 0)
+                    {
+                        fileLines[i] = DateTime.Now.ToLongTimeString() + "\t" + fileLines[i];//If there is nothing preceeding the PlayerX style keyword, add a timestamp to the line.
+                    }
                 }
-			}
+            } 
+            fileText = string.Join("\n", fileLines);//Rejoin the string array back into one string
+
+            //Sets all references to the player names into the correct form for the Team/Individual setting and the language of choice
+            fileText = fileText.Replace("Player1", Player1Label.Text);
+            fileText = fileText.Replace("player1", Player1Label.Text);
+            fileText = fileText.Replace("Player 1", Player1Label.Text);
+            fileText = fileText.Replace("player 1", Player1Label.Text);
+            fileText = fileText.Replace("Team1", Player1Label.Text);
+            fileText = fileText.Replace("team1", Player1Label.Text);
+            fileText = fileText.Replace("Team 1", Player1Label.Text);
+            fileText = fileText.Replace("team 1", Player1Label.Text);
+            fileText = fileText.Replace("选手 1", Player1Label.Text);
+            fileText = fileText.Replace("选手1", Player1Label.Text);
+            fileText = fileText.Replace("队 1", Player1Label.Text);
+            fileText = fileText.Replace("队1", Player1Label.Text);
+
+            fileText = fileText.Replace("Player2", Player2Label.Text);
+            fileText = fileText.Replace("player2", Player2Label.Text);
+            fileText = fileText.Replace("Player 2", Player2Label.Text);
+            fileText = fileText.Replace("player 2", Player2Label.Text);
+            fileText = fileText.Replace("Team2", Player2Label.Text);
+            fileText = fileText.Replace("team2", Player2Label.Text);
+            fileText = fileText.Replace("Team 2", Player2Label.Text);
+            fileText = fileText.Replace("team 2", Player2Label.Text);
+            fileText = fileText.Replace("选手 2", Player2Label.Text);
+            fileText = fileText.Replace("选手2", Player2Label.Text);
+            fileText = fileText.Replace("队 2", Player2Label.Text);
+            fileText = fileText.Replace("队2", Player2Label.Text);
+
+            fileText = fileText.Replace("Player3", Player3Label.Text);
+            fileText = fileText.Replace("player3", Player3Label.Text);
+            fileText = fileText.Replace("Player 3", Player3Label.Text);
+            fileText = fileText.Replace("player 3", Player3Label.Text);
+            fileText = fileText.Replace("Team3", Player3Label.Text);
+            fileText = fileText.Replace("team3", Player3Label.Text);
+            fileText = fileText.Replace("Team 3", Player3Label.Text);
+            fileText = fileText.Replace("team 3", Player3Label.Text);
+            fileText = fileText.Replace("选手 3", Player3Label.Text);
+            fileText = fileText.Replace("选手3", Player3Label.Text);
+            fileText = fileText.Replace("队 3", Player3Label.Text);
+            fileText = fileText.Replace("队3", Player3Label.Text);
+
+            fileText = fileText.Replace("Player4", Player4Label.Text);
+            fileText = fileText.Replace("player4", Player4Label.Text);
+            fileText = fileText.Replace("Player 4", Player4Label.Text);
+            fileText = fileText.Replace("player 4", Player4Label.Text);
+            fileText = fileText.Replace("Team4", Player4Label.Text);
+            fileText = fileText.Replace("team4", Player4Label.Text);
+            fileText = fileText.Replace("Team 4", Player4Label.Text);
+            fileText = fileText.Replace("team 4", Player4Label.Text);
+            fileText = fileText.Replace("选手 4", Player4Label.Text);
+            fileText = fileText.Replace("选手4", Player4Label.Text);
+            fileText = fileText.Replace("队 4", Player4Label.Text);
+            fileText = fileText.Replace("队4", Player4Label.Text);
+
+            //Write the reformatted text back to the file
+            if (!Directory.Exists(SCOREFILEDIRECTORY))
+            {
+                Directory.CreateDirectory(SCOREFILEDIRECTORY);
+            }
+            if (!File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+            {
+                File.CreateText(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME).Close();
+            }
+            try
+            {
+                using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                {
+                    WriteAccess.Write(fileText); //Outputs file for the updated file contents joined together into one string
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorWritingToFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            WriteAccess.Close(); //Close write access to file
+
+            //Update the GameScores window and joining file lines into one string
+            GameScores.Text = fileText;
 
             //Begins code to set all life indicators
             //This is mathimatically equivalent to (Player1LivesCount/numberOfLives)*100, but does not result in remainders
@@ -261,10 +356,10 @@ namespace Game_Control_Panel
             //Ends code to set all life indicators
 
             //Begins code to set all score labels
-            Player1Score.Text = Player1ScoreValue.ToString() + " Points";
-            Player2Score.Text = Player2ScoreValue.ToString() + " Points";
-            Player3Score.Text = Player3ScoreValue.ToString() + " Points";
-            Player4Score.Text = Player4ScoreValue.ToString() + " Points";
+            Player1Score.Text = Player1ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player2Score.Text = Player2ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player3Score.Text = Player3ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player4Score.Text = Player4ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
             //Ends code to set all score labels
         }
         public bool OnePlayerRemaining() //Returns true if there is only one player alvie so that the game can end
@@ -668,7 +763,7 @@ namespace Game_Control_Panel
                 }
                 catch (IOException)
                 {
-                    MessageBox.Show("Error reading from file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorReadingFromFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 try
                 {
@@ -676,95 +771,39 @@ namespace Game_Control_Panel
                     {
                         WriteAccess.Write(fileText);
                         WriteAccess.WriteLine();
-                        WriteAccess.WriteLine("Final Game Scores:");
+                        WriteAccess.WriteLine(Translator.GetWord(Translation.WORDS.FinalGameScores));
                         WriteAccess.WriteLine();
                         WriteAccess.WriteLine(Player1Label.Text);
                         WriteAccess.WriteLine("\t" + Player1Score.Text);
-                        if (Player1LivesCount != 1)
-                        {
-                            WriteAccess.WriteLine("\t" + Player1LivesCount + " Lives");
-                        }
-                        else
-                        {
-                            WriteAccess.WriteLine("\t" + Player1LivesCount + " Life");
-                        }
+                        WriteAccess.WriteLine("\t" + Translator.NumberOfLives(Player1LivesCount));//Prints a string with the number of lives in the propper language and singular/plural form
                         if (Player1ShotsFromPlayer2 > 0)
                         {
-                            if (Player1ShotsFromPlayer2 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player1ShotsFromPlayer2 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player2Label.Text, Player1ShotsFromPlayer2));
                         }
                         if (Player1ShotsFromPlayer3 > 0)
                         {
-                            if (Player1ShotsFromPlayer3 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player1ShotsFromPlayer3 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player3Label.Text, Player1ShotsFromPlayer3));
                         }
                         if (Player1ShotsFromPlayer4 > 0)
                         {
-                            if (Player1ShotsFromPlayer4 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player1ShotsFromPlayer4 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player4Label.Text, Player1ShotsFromPlayer4));
                         }
                         WriteAccess.WriteLine();
 
                         WriteAccess.WriteLine(Player2Label.Text);
                         WriteAccess.WriteLine("\t" + Player2Score.Text);
-                        if (Player2LivesCount != 1)
-                        {
-                            WriteAccess.WriteLine("\t" + Player2LivesCount + " Lives");
-                        }
-                        else
-                        {
-                            WriteAccess.WriteLine("\t" + Player2LivesCount + " Life");
-                        }
+                        WriteAccess.WriteLine("\t" + Translator.NumberOfLives(Player2LivesCount));//Prints a string with the number of lives in the propper language and singular/plural form
                         if (Player2ShotsFromPlayer1 > 0)
                         {
-                            if (Player2ShotsFromPlayer1 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player2ShotsFromPlayer1 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player1Label.Text, Player2ShotsFromPlayer1));
                         }
                         if (Player2ShotsFromPlayer3 > 0)
                         {
-                            if (Player2ShotsFromPlayer3 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player2ShotsFromPlayer3 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player3Label.Text, Player2ShotsFromPlayer3));
                         }
                         if (Player2ShotsFromPlayer4 > 0)
                         {
-                            if (Player2ShotsFromPlayer4 == 1)
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player2ShotsFromPlayer4 + " Times");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player4Label.Text, Player2ShotsFromPlayer4));
                         }
                         WriteAccess.WriteLine();
 
@@ -772,46 +811,18 @@ namespace Game_Control_Panel
                         {
                             WriteAccess.WriteLine(Player3Label.Text);
                             WriteAccess.WriteLine("\t" + Player3Score.Text);
-                            if (Player3LivesCount != 1)
-                            {
-                                WriteAccess.WriteLine("\t" + Player3LivesCount + " Lives");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\t" + Player3LivesCount + " Life");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.NumberOfLives(Player3LivesCount));//Prints a string with the number of lives in the propper language and singular/plural form
                             if (Player3ShotsFromPlayer1 > 0)
                             {
-                                if (Player3ShotsFromPlayer1 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player3ShotsFromPlayer1 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player1Label.Text, Player3ShotsFromPlayer1));
                             }
                             if (Player3ShotsFromPlayer2 > 0)
                             {
-                                if (Player3ShotsFromPlayer2 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player3ShotsFromPlayer2 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player2Label.Text, Player3ShotsFromPlayer2));
                             }
                             if (Player3ShotsFromPlayer4 > 0)
                             {
-                                if (Player3ShotsFromPlayer4 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player4Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player4Label.Text + ": " + Player3ShotsFromPlayer4 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player4Label.Text, Player3ShotsFromPlayer4));
                             }
                             WriteAccess.WriteLine();
 
@@ -820,46 +831,18 @@ namespace Game_Control_Panel
                         {
                             WriteAccess.WriteLine(Player4Label.Text);
                             WriteAccess.WriteLine("\t" + Player4Score.Text);
-                            if (Player4LivesCount != 1)
-                            {
-                                WriteAccess.WriteLine("\t" + Player4LivesCount + " Lives");
-                            }
-                            else
-                            {
-                                WriteAccess.WriteLine("\t" + Player4LivesCount + " Life");
-                            }
+                            WriteAccess.WriteLine("\t" + Translator.NumberOfLives(Player4LivesCount));//Prints a string with the number of lives in the propper language and singular/plural form
                             if (Player4ShotsFromPlayer1 > 0)
                             {
-                                if (Player4ShotsFromPlayer1 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player1Label.Text + ": " + Player4ShotsFromPlayer1 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player1Label.Text, Player4ShotsFromPlayer1));
                             }
                             if (Player4ShotsFromPlayer2 > 0)
                             {
-                                if (Player4ShotsFromPlayer2 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player2Label.Text + ": " + Player4ShotsFromPlayer2 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player2Label.Text, Player4ShotsFromPlayer2));
                             }
                             if (Player4ShotsFromPlayer3 > 0)
                             {
-                                if (Player4ShotsFromPlayer3 == 1)
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player3Label.Text + " Once");
-                                }
-                                else
-                                {
-                                    WriteAccess.WriteLine("\tShot by " + Player3Label.Text + ": " + Player4ShotsFromPlayer3 + " Times");
-                                }
+                                WriteAccess.WriteLine("\t" + Translator.ShotsFromPlayerX(Player3Label.Text, Player4ShotsFromPlayer3));
                             }
                             WriteAccess.WriteLine();
                         }
@@ -867,7 +850,7 @@ namespace Game_Control_Panel
                 }
                 catch (IOException)
                 {
-                    MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorWritingToFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 WriteAccess.Close(); //Close read access to file
             }
@@ -900,10 +883,10 @@ namespace Game_Control_Panel
             Player2ScoreValue = 0;
             Player3ScoreValue = 0;
             Player4ScoreValue = 0;
-            Player1Score.Text = "0 Points";
-            Player2Score.Text = "0 Points";
-            Player3Score.Text = "0 Points";
-            Player4Score.Text = "0 Points";
+            Player1Score.Text = 0 + " " +Translator.GetWord(Translation.WORDS.Points);
+            Player2Score.Text = 0 + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player3Score.Text = 0 + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player4Score.Text = 0 + " " + Translator.GetWord(Translation.WORDS.Points);
             Player1Lives.Value = 0;
             Player2Lives.Value = 0;
             Player3Lives.Value = 0;
@@ -925,6 +908,144 @@ namespace Game_Control_Panel
             Player4ShotsFromPlayer2 = 0;
             Player4ShotsFromPlayer3 = 0;
             GameScores.Text = "";
+        }
+
+        public void updateLanguage()
+        {
+            GameScoresLabel.Text = Translator.GetWord(Translation.WORDS.GameScores);
+            setNumberOfTeams(NumberOfTeams);//To refresh the team and player labels.
+            //Begins code to refresh all score labels
+            Player1Score.Text = Player1ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player2Score.Text = Player2ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player3Score.Text = Player3ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player4Score.Text = Player4ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            //Ends code to refresh all score labels
+
+            if (File.Exists(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+            {
+                StreamWriter WriteAccess = null;
+                StreamReader ReadAccess = null;
+                try
+                {
+                    using (ReadAccess = new StreamReader(ScoreControl.SCOREFILEDIRECTORY + "\\" + ScoreControl.SCOREFILENAME))
+                    {
+                        fileText = ReadAccess.ReadToEnd();
+                        ReadAccess.Close();
+                    }
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorReadingFromFile), Translator.GetWord(Translation.WORDS.ErrorWritingToFile), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                try
+                {
+                    using (WriteAccess = new StreamWriter(SCOREFILEDIRECTORY + "\\" + SCOREFILENAME))
+                    {
+                        //The order of the replace statements is designed to avoid replacing strings that could be found as substrings in other strings until the end.
+                        //For example the Chinese translation for 10 Minutes could be found within the string for 60 Minutes resulting in an erronious conversion if the replacement for 10 Minutes came first
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.RobotagGame), Translator.GetWord(Translation.WORDS.RobotagGame));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.GameControlPanelVersion), Translator.GetWord(Translation.WORDS.GameControlPanelVersion));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.GameStarted), Translator.GetWord(Translation.WORDS.GameStarted));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.GameSettings), Translator.GetWord(Translation.WORDS.GameSettings));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.OneLife), Translator.GetWord(Translation.WORDS.OneLife));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TwoLives), Translator.GetWord(Translation.WORDS.TwoLives));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ThreeLives), Translator.GetWord(Translation.WORDS.ThreeLives));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FourLives), Translator.GetWord(Translation.WORDS.FourLives));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FiveLives), Translator.GetWord(Translation.WORDS.FiveLives));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.SixLives), Translator.GetWord(Translation.WORDS.SixLives));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.OneMinute), Translator.GetWord(Translation.WORDS.OneMinute));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TwoMinutes), Translator.GetWord(Translation.WORDS.TwoMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ThreeMinutes), Translator.GetWord(Translation.WORDS.ThreeMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FourMinutes), Translator.GetWord(Translation.WORDS.FourMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.SixMinutes), Translator.GetWord(Translation.WORDS.SixMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.SevenMinutes), Translator.GetWord(Translation.WORDS.SevenMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.EightMinutes), Translator.GetWord(Translation.WORDS.EightMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.NineMinutes), Translator.GetWord(Translation.WORDS.NineMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FifteenMinutes), Translator.GetWord(Translation.WORDS.FifteenMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TwentyMinutes), Translator.GetWord(Translation.WORDS.TwentyMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TwentyFiveMinutes), Translator.GetWord(Translation.WORDS.TwentyFiveMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ThirtyMinutes), Translator.GetWord(Translation.WORDS.ThirtyMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ThirtyFiveMinutes), Translator.GetWord(Translation.WORDS.ThirtyFiveMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FourtyMinutes), Translator.GetWord(Translation.WORDS.FourtyMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FourtyFiveMinutes), Translator.GetWord(Translation.WORDS.FourtyFiveMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FiftyMinutes), Translator.GetWord(Translation.WORDS.FiftyMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FiftyFiveMinutes), Translator.GetWord(Translation.WORDS.FiftyFiveMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.SixtyMinutes), Translator.GetWord(Translation.WORDS.SixtyMinutes));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.STARTKEYWORD), Translator.GetWord(Translation.WORDS.STARTKEYWORD));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.RESUMEKEYWORD), Translator.GetWord(Translation.WORDS.RESUMEKEYWORD));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ENDKEYWORDBecauseOnlyOnePlayerIsRemaining), "ENDKEYWORDBecauseOnlyOnePlayerIsRemaining"); //Conterting to a dummy variable because this string will always contain the ENDKEYWORD
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.ENDKEYWORD), Translator.GetWord(Translation.WORDS.ENDKEYWORD)); //Placed near the end of the list because in Chinese this is a substring for some of the preceeding strings
+                        fileText = fileText.Replace("ENDKEYWORDBecauseOnlyOnePlayerIsRemaining", Translator.GetWord(Translation.WORDS.ENDKEYWORDBecauseOnlyOnePlayerIsRemaining)); //Now that all of the ENDKEYWORD substrings have been translated, the dummy variable can be translated
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FiveMinutes), Translator.GetWord(Translation.WORDS.FiveMinutes)); //Placed near the end of the list because in Chinese this is a substring for some of the preceeding strings
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TenMinutes), Translator.GetWord(Translation.WORDS.TenMinutes)); //Placed near the end of the list because in Chinese this is a substring for some of the preceeding strings
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.IndividualGame), Translator.GetWord(Translation.WORDS.IndividualGame));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.TeamGame), Translator.GetWord(Translation.WORDS.TeamGame)); //Placed near the end of the list because in Chinese this is a substring for some of the preceeding strings
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.Shot), Translator.GetWord(Translation.WORDS.Shot));
+                        fileText = fileText.Replace(Translator.GetPreviousLanguageWord(Translation.WORDS.FileNotFoundErrorMessage), Translator.GetWord(Translation.WORDS.FileNotFoundErrorMessage));
+
+                        //Sets all references to the player names into the correct form for the Team/Individual setting and the language of choice
+                        fileText = fileText.Replace("Player1", Player1Label.Text);
+                        fileText = fileText.Replace("player1", Player1Label.Text);
+                        fileText = fileText.Replace("Player 1", Player1Label.Text);
+                        fileText = fileText.Replace("player 1", Player1Label.Text);
+                        fileText = fileText.Replace("Team1", Player1Label.Text);
+                        fileText = fileText.Replace("team1", Player1Label.Text);
+                        fileText = fileText.Replace("Team 1", Player1Label.Text);
+                        fileText = fileText.Replace("team 1", Player1Label.Text);
+                        fileText = fileText.Replace("选手 1", Player1Label.Text);
+                        fileText = fileText.Replace("选手1", Player1Label.Text);
+                        fileText = fileText.Replace("队 1", Player1Label.Text);
+                        fileText = fileText.Replace("队1", Player1Label.Text);
+
+                        fileText = fileText.Replace("Player2", Player2Label.Text);
+                        fileText = fileText.Replace("player2", Player2Label.Text);
+                        fileText = fileText.Replace("Player 2", Player2Label.Text);
+                        fileText = fileText.Replace("player 2", Player2Label.Text);
+                        fileText = fileText.Replace("Team2", Player2Label.Text);
+                        fileText = fileText.Replace("team2", Player2Label.Text);
+                        fileText = fileText.Replace("Team 2", Player2Label.Text);
+                        fileText = fileText.Replace("team 2", Player2Label.Text);
+                        fileText = fileText.Replace("选手 2", Player2Label.Text);
+                        fileText = fileText.Replace("选手2", Player2Label.Text);
+                        fileText = fileText.Replace("队 2", Player2Label.Text);
+                        fileText = fileText.Replace("队2", Player2Label.Text);
+
+                        fileText = fileText.Replace("Player3", Player3Label.Text);
+                        fileText = fileText.Replace("player3", Player3Label.Text);
+                        fileText = fileText.Replace("Player 3", Player3Label.Text);
+                        fileText = fileText.Replace("player 3", Player3Label.Text);
+                        fileText = fileText.Replace("Team3", Player3Label.Text);
+                        fileText = fileText.Replace("team3", Player3Label.Text);
+                        fileText = fileText.Replace("Team 3", Player3Label.Text);
+                        fileText = fileText.Replace("team 3", Player3Label.Text);
+                        fileText = fileText.Replace("选手 3", Player3Label.Text);
+                        fileText = fileText.Replace("选手3", Player3Label.Text);
+                        fileText = fileText.Replace("队 3", Player3Label.Text);
+                        fileText = fileText.Replace("队3", Player3Label.Text);
+
+                        fileText = fileText.Replace("Player4", Player4Label.Text);
+                        fileText = fileText.Replace("player4", Player4Label.Text);
+                        fileText = fileText.Replace("Player 4", Player4Label.Text);
+                        fileText = fileText.Replace("player 4", Player4Label.Text);
+                        fileText = fileText.Replace("Team4", Player4Label.Text);
+                        fileText = fileText.Replace("team4", Player4Label.Text);
+                        fileText = fileText.Replace("Team 4", Player4Label.Text);
+                        fileText = fileText.Replace("team 4", Player4Label.Text);
+                        fileText = fileText.Replace("选手 4", Player4Label.Text);
+                        fileText = fileText.Replace("选手4", Player4Label.Text);
+                        fileText = fileText.Replace("队 4", Player4Label.Text);
+                        fileText = fileText.Replace("队4", Player4Label.Text);
+
+                        WriteAccess.Write(fileText);
+                    }
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorWritingToFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                WriteAccess.Close(); //Close read access to file
+                GameScores.Text = fileText;
+            }
         }
     }
 }

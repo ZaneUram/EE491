@@ -127,6 +127,7 @@
     <Compile Include="ScoreControl.Designer.cs">
       <DependentUpon>ScoreControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Translation.cs" />
     <Compile Include="UserInterface.cs">
       <SubType>Form</SubType>
     </Compile>

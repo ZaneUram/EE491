@@ -46,10 +46,13 @@
             this.MenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.languagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chineseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.openHelpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewHelpWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
             this.MenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +72,7 @@
             this.NumberOfLivesLabel.AutoSize = true;
             this.NumberOfLivesLabel.Location = new System.Drawing.Point(35, 50);
             this.NumberOfLivesLabel.Name = "NumberOfLivesLabel";
-            this.NumberOfLivesLabel.Size = new System.Drawing.Size(84, 13);
+            this.NumberOfLivesLabel.Size = new System.Drawing.Size(89, 13);
             this.NumberOfLivesLabel.TabIndex = 1;
             this.NumberOfLivesLabel.Text = "Number of Lives";
             // 
@@ -96,7 +99,7 @@
             this.GameLengthLabel.AutoSize = true;
             this.GameLengthLabel.Location = new System.Drawing.Point(35, 90);
             this.GameLengthLabel.Name = "GameLengthLabel";
-            this.GameLengthLabel.Size = new System.Drawing.Size(71, 13);
+            this.GameLengthLabel.Size = new System.Drawing.Size(75, 13);
             this.GameLengthLabel.TabIndex = 3;
             this.GameLengthLabel.Text = "Game Length";
             // 
@@ -133,7 +136,7 @@
             // 
             // StartButton
             // 
-            this.StartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StartButton.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StartButton.Location = new System.Drawing.Point(17, 138);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(150, 150);
@@ -144,7 +147,7 @@
             // 
             // EStopButton
             // 
-            this.EStopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EStopButton.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EStopButton.Location = new System.Drawing.Point(188, 138);
             this.EStopButton.Name = "EStopButton";
             this.EStopButton.Size = new System.Drawing.Size(150, 150);
@@ -179,7 +182,7 @@
             this.IndividualGameRadioButton.Checked = true;
             this.IndividualGameRadioButton.Location = new System.Drawing.Point(188, 48);
             this.IndividualGameRadioButton.Name = "IndividualGameRadioButton";
-            this.IndividualGameRadioButton.Size = new System.Drawing.Size(101, 17);
+            this.IndividualGameRadioButton.Size = new System.Drawing.Size(108, 17);
             this.IndividualGameRadioButton.TabIndex = 6;
             this.IndividualGameRadioButton.TabStop = true;
             this.IndividualGameRadioButton.Text = "Individual Game";
@@ -201,7 +204,7 @@
             this.NumberOfTeamsLabel.AutoSize = true;
             this.NumberOfTeamsLabel.Location = new System.Drawing.Point(183, 90);
             this.NumberOfTeamsLabel.Name = "NumberOfTeamsLabel";
-            this.NumberOfTeamsLabel.Size = new System.Drawing.Size(91, 13);
+            this.NumberOfTeamsLabel.Size = new System.Drawing.Size(96, 13);
             this.NumberOfTeamsLabel.TabIndex = 8;
             this.NumberOfTeamsLabel.Text = "Number of Teams";
             this.NumberOfTeamsLabel.Visible = false;
@@ -226,6 +229,7 @@
             this.MenuBar.BackColor = System.Drawing.SystemColors.Control;
             this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.languagesToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
@@ -248,6 +252,29 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // languagesToolStripMenuItem
+            // 
+            this.languagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.englishToolStripMenuItem,
+            this.chineseToolStripMenuItem});
+            this.languagesToolStripMenuItem.Name = "languagesToolStripMenuItem";
+            this.languagesToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.languagesToolStripMenuItem.Text = "Languages";
+            // 
+            // englishToolStripMenuItem
+            // 
+            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
+            // 
+            // chineseToolStripMenuItem
+            // 
+            this.chineseToolStripMenuItem.Name = "chineseToolStripMenuItem";
+            this.chineseToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.chineseToolStripMenuItem.Text = "中文";
+            this.chineseToolStripMenuItem.Click += new System.EventHandler(this.chineseToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -256,7 +283,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // openHelpFileToolStripMenuItem
             // 
@@ -302,7 +328,7 @@
             this.Controls.Add(this.NumberOfLivesLabel);
             this.Controls.Add(this.GameSettingsLabel);
             this.Controls.Add(this.MenuBar);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuBar;
             this.MinimumSize = new System.Drawing.Size(640, 480);
@@ -339,6 +365,9 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem openHelpFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewHelpWebsiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem languagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chineseToolStripMenuItem;
     }
 }
 

@@ -96,7 +96,7 @@
             this.Player4Score.AutoSize = true;
             this.Player4Score.Location = new System.Drawing.Point(187, 396);
             this.Player4Score.Name = "Player4Score";
-            this.Player4Score.Size = new System.Drawing.Size(45, 13);
+            this.Player4Score.Size = new System.Drawing.Size(48, 13);
             this.Player4Score.TabIndex = 54;
             this.Player4Score.Text = "0 Points";
             // 
@@ -117,7 +117,7 @@
             this.Player3Score.AutoSize = true;
             this.Player3Score.Location = new System.Drawing.Point(19, 396);
             this.Player3Score.Name = "Player3Score";
-            this.Player3Score.Size = new System.Drawing.Size(45, 13);
+            this.Player3Score.Size = new System.Drawing.Size(48, 13);
             this.Player3Score.TabIndex = 51;
             this.Player3Score.Text = "0 Points";
             // 
@@ -138,7 +138,7 @@
             this.Player2Score.AutoSize = true;
             this.Player2Score.Location = new System.Drawing.Point(187, 318);
             this.Player2Score.Name = "Player2Score";
-            this.Player2Score.Size = new System.Drawing.Size(45, 13);
+            this.Player2Score.Size = new System.Drawing.Size(48, 13);
             this.Player2Score.TabIndex = 48;
             this.Player2Score.Text = "0 Points";
             // 
@@ -159,7 +159,7 @@
             this.Player1Score.AutoSize = true;
             this.Player1Score.Location = new System.Drawing.Point(19, 318);
             this.Player1Score.Name = "Player1Score";
-            this.Player1Score.Size = new System.Drawing.Size(45, 13);
+            this.Player1Score.Size = new System.Drawing.Size(48, 13);
             this.Player1Score.TabIndex = 45;
             this.Player1Score.Text = "0 Points";
             // 
@@ -202,6 +202,7 @@
             this.Controls.Add(this.Player1Score);
             this.Controls.Add(this.Player1Label);
             this.Controls.Add(this.GameScoresLabel);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ScoreControl";
             this.Size = new System.Drawing.Size(275, 450);
             this.ResumeLayout(false);
@@ -224,7 +225,7 @@
         private System.Windows.Forms.Label Player2Label;
         private System.Windows.Forms.Label Player1Score;
         private System.Windows.Forms.Label Player1Label;
-        private System.Windows.Forms.Label GameScoresLabel;
+        public System.Windows.Forms.Label GameScoresLabel;
 
 
 
