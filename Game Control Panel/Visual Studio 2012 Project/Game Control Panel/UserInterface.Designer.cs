@@ -53,6 +53,9 @@
             this.openHelpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewHelpWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.videoFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.robot1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.robot2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
             this.MenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -229,6 +232,7 @@
             this.MenuBar.BackColor = System.Drawing.SystemColors.Control;
             this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.videoFeedToolStripMenuItem,
             this.languagesToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
@@ -298,11 +302,35 @@
             this.viewHelpWebsiteToolStripMenuItem.Text = "View Help Website";
             this.viewHelpWebsiteToolStripMenuItem.Click += new System.EventHandler(this.viewHelpWebsiteToolStripMenuItem_Click);
             // 
+            // videoFeedToolStripMenuItem
+            // 
+            this.videoFeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.robot1ToolStripMenuItem,
+            this.robot2ToolStripMenuItem});
+            this.videoFeedToolStripMenuItem.Name = "videoFeedToolStripMenuItem";
+            this.videoFeedToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.videoFeedToolStripMenuItem.Text = "Video Feed";
+            // 
+            // robot1ToolStripMenuItem
+            // 
+            this.robot1ToolStripMenuItem.Name = "robot1ToolStripMenuItem";
+            this.robot1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.robot1ToolStripMenuItem.Text = "Robot 1";
+            this.robot1ToolStripMenuItem.Click += new System.EventHandler(this.robot1ToolStripMenuItem_Click);
+            // 
+            // robot2ToolStripMenuItem
+            // 
+            this.robot2ToolStripMenuItem.Name = "robot2ToolStripMenuItem";
+            this.robot2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.robot2ToolStripMenuItem.Text = "Robot 2";
+            this.robot2ToolStripMenuItem.Click += new System.EventHandler(this.robot2ToolStripMenuItem_Click);
+            // 
             // Scorekeeper
             // 
             this.Scorekeeper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Scorekeeper.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Scorekeeper.Location = new System.Drawing.Point(350, 12);
             this.Scorekeeper.Name = "Scorekeeper";
             this.Scorekeeper.Size = new System.Drawing.Size(275, 438);
@@ -333,7 +361,7 @@
             this.MainMenuStrip = this.MenuBar;
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "UserInterface";
-            this.Text = "RoboTag Game Control Panel";
+            this.Text = "Game Control Panel";
             this.TransparencyKey = System.Drawing.Color.LightPink;
             this.MenuBar.ResumeLayout(false);
             this.MenuBar.PerformLayout();
@@ -368,6 +396,9 @@
         private System.Windows.Forms.ToolStripMenuItem languagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chineseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem videoFeedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem robot1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem robot2ToolStripMenuItem;
     }
 }
 

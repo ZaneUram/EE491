@@ -24,7 +24,9 @@ namespace Game_Control_Panel
         public const string ENDKEYWORD = "END GAME";//Keyword is only availible in English because it is needed to be constant for communication with Game Server
         Thread timerThread;
         Thread ScoreKeeperThread;
-        private Translation Translator=new Translation();
+        private Translation Translator = new Translation();
+        private Form Robot1VideoForm = new RobotVideo();
+        private Form Robot2VideoForm = new RobotVideo();
 
         public UserInterface()
         {
@@ -551,6 +553,26 @@ namespace Game_Control_Panel
             toolTip.SetToolTip(NumberOfTeamsComboBox, Translator.GetWord(Translation.WORDS.NumberOfTeamsComboBoxToolTip));
             toolTip.SetToolTip(StartButton, Translator.GetWord(Translation.WORDS.StartButtonToolTip));
             toolTip.SetToolTip(EStopButton, Translator.GetWord(Translation.WORDS.EStopButtonToolTip));
+        }
+
+        private void robot1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Robot1VideoForm.IsDisposed)
+            {
+                Robot1VideoForm=new RobotVideo();
+            }
+            Robot1VideoForm.Show();
+            Robot1VideoForm.BringToFront();
+        }
+
+        private void robot2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Robot2VideoForm.IsDisposed)
+            {
+                Robot2VideoForm = new RobotVideo();
+            }
+            Robot2VideoForm.Show();
+            Robot2VideoForm.BringToFront();
         }
         
     }

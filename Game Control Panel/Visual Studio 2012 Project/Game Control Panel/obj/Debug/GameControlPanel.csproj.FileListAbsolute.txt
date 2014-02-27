@@ -14,3 +14,4 @@ C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Proj
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.exe.manifest
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game Control Panel.application
 C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\GameControlPanel.csprojResolveAssemblyReference.cache
+C:\Users\David\Documents\GitHub\EE491\Game Control Panel\Visual Studio 2012 Project\Game Control Panel\obj\Debug\Game_Control_Panel.RobotVideo.resources
