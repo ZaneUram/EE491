@@ -356,10 +356,10 @@ namespace Game_Control_Panel
             //Ends code to set all life indicators
 
             //Begins code to set all score labels
-            Player1Score.Text = Player1ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
-            Player2Score.Text = Player2ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
-            Player3Score.Text = Player3ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
-            Player4Score.Text = Player4ScoreValue.ToString() + " " + Translator.GetWord(Translation.WORDS.Points);
+            Player1Score.Text = Translator.GetWord(Translation.WORDS.Points) + " " + Player1ScoreValue.ToString();
+            Player2Score.Text = Translator.GetWord(Translation.WORDS.Points) + " " + Player2ScoreValue.ToString();
+            Player3Score.Text = Translator.GetWord(Translation.WORDS.Points) + " " + Player3ScoreValue.ToString();
+            Player4Score.Text = Translator.GetWord(Translation.WORDS.Points) + " " + Player4ScoreValue.ToString();
             //Ends code to set all score labels
         }
         public bool OnePlayerRemaining() //Returns true if there is only one player alvie so that the game can end

@@ -11,7 +11,7 @@ namespace Game_Control_Panel
 {
     public partial class RobotVideo : Form
     {
-        public RobotVideo()
+        public RobotVideo(string URL)
         {
             InitializeComponent();
         }

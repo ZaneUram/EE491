@@ -25,8 +25,10 @@ namespace Game_Control_Panel
         Thread timerThread;
         Thread ScoreKeeperThread;
         private Translation Translator = new Translation();
-        private Form Robot1VideoForm = new RobotVideo();
-        private Form Robot2VideoForm = new RobotVideo();
+        private Form Robot1VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot1VideoFile);//This URL is currently undefined
+        private const string Robot1VideoFile = "Robot1Video.html";//This URL is currently undefined
+        private Form Robot2VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot2VideoFile);//This URL is currently undefined
+        private const string Robot2VideoFile = "Robot2Video.html";//This URL is currently undefined
 
         public UserInterface()
         {
@@ -349,7 +351,7 @@ namespace Game_Control_Panel
             }
             catch (IOException)
             {
-                MessageBox.Show("Error reading from file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorReadingFromFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             try
@@ -368,7 +370,7 @@ namespace Game_Control_Panel
             }
             catch (IOException)
             {
-                MessageBox.Show("Error writing to file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Translator.GetWord(Translation.WORDS.ErrorReadingFromFile), Translator.GetWord(Translation.WORDS.FileError), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -545,7 +547,6 @@ namespace Game_Control_Panel
             //
             // Update ToolTips
             //
-
             toolTip.SetToolTip(NumberOfLivesComboBox, Translator.GetWord(Translation.WORDS.NumberOfLivesComboBoxToolTip));
             toolTip.SetToolTip(GameLengthComboBox, Translator.GetWord(Translation.WORDS.GameLengthComboBoxToolTip));
             toolTip.SetToolTip(IndividualGameRadioButton, Translator.GetWord(Translation.WORDS.IndividualGameRadioButtonToolTip));
@@ -553,14 +554,32 @@ namespace Game_Control_Panel
             toolTip.SetToolTip(NumberOfTeamsComboBox, Translator.GetWord(Translation.WORDS.NumberOfTeamsComboBoxToolTip));
             toolTip.SetToolTip(StartButton, Translator.GetWord(Translation.WORDS.StartButtonToolTip));
             toolTip.SetToolTip(EStopButton, Translator.GetWord(Translation.WORDS.EStopButtonToolTip));
+            // 
+            // videoFeedToolStripMenuItem
+            // 
+            this.videoFeedToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.VideoFeed);
+            // 
+            // robot1ToolStripMenuItem
+            // 
+            this.robot1ToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.Robot1);
+            // 
+            // robot2ToolStripMenuItem
+            // 
+            this.robot2ToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.Robot2);
+            //
+            // Robot video feed windows
+            //
+            Robot1VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot1VideoFeed);
+            Robot2VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot2VideoFeed);
         }
 
         private void robot1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Robot1VideoForm.IsDisposed)
             {
-                Robot1VideoForm=new RobotVideo();
+                Robot1VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot1VideoFile);//This URL is currently undefined
             }
+            Robot1VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot1VideoFeed);
             Robot1VideoForm.Show();
             Robot1VideoForm.BringToFront();
         }
@@ -569,8 +588,9 @@ namespace Game_Control_Panel
         {
             if (Robot2VideoForm.IsDisposed)
             {
-                Robot2VideoForm = new RobotVideo();
+                Robot2VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot2VideoFile);
             }
+            Robot2VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot2VideoFeed);//This URL is currently undefined
             Robot2VideoForm.Show();
             Robot2VideoForm.BringToFront();
         }
