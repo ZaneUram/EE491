@@ -46,6 +46,9 @@
             this.MenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.robot1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.robot2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chineseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +56,6 @@
             this.openHelpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewHelpWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.videoFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.robot1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.robot2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
             this.MenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -256,6 +256,29 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // videoFeedToolStripMenuItem
+            // 
+            this.videoFeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.robot1ToolStripMenuItem,
+            this.robot2ToolStripMenuItem});
+            this.videoFeedToolStripMenuItem.Name = "videoFeedToolStripMenuItem";
+            this.videoFeedToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.videoFeedToolStripMenuItem.Text = "Video Feed";
+            // 
+            // robot1ToolStripMenuItem
+            // 
+            this.robot1ToolStripMenuItem.Name = "robot1ToolStripMenuItem";
+            this.robot1ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.robot1ToolStripMenuItem.Text = "Robot 1";
+            this.robot1ToolStripMenuItem.Click += new System.EventHandler(this.robot1ToolStripMenuItem_Click);
+            // 
+            // robot2ToolStripMenuItem
+            // 
+            this.robot2ToolStripMenuItem.Name = "robot2ToolStripMenuItem";
+            this.robot2ToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.robot2ToolStripMenuItem.Text = "Robot 2";
+            this.robot2ToolStripMenuItem.Click += new System.EventHandler(this.robot2ToolStripMenuItem_Click);
+            // 
             // languagesToolStripMenuItem
             // 
             this.languagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -301,29 +324,6 @@
             this.viewHelpWebsiteToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.viewHelpWebsiteToolStripMenuItem.Text = "View Help Website";
             this.viewHelpWebsiteToolStripMenuItem.Click += new System.EventHandler(this.viewHelpWebsiteToolStripMenuItem_Click);
-            // 
-            // videoFeedToolStripMenuItem
-            // 
-            this.videoFeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.robot1ToolStripMenuItem,
-            this.robot2ToolStripMenuItem});
-            this.videoFeedToolStripMenuItem.Name = "videoFeedToolStripMenuItem";
-            this.videoFeedToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
-            this.videoFeedToolStripMenuItem.Text = "Video Feed";
-            // 
-            // robot1ToolStripMenuItem
-            // 
-            this.robot1ToolStripMenuItem.Name = "robot1ToolStripMenuItem";
-            this.robot1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.robot1ToolStripMenuItem.Text = "Robot 1";
-            this.robot1ToolStripMenuItem.Click += new System.EventHandler(this.robot1ToolStripMenuItem_Click);
-            // 
-            // robot2ToolStripMenuItem
-            // 
-            this.robot2ToolStripMenuItem.Name = "robot2ToolStripMenuItem";
-            this.robot2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.robot2ToolStripMenuItem.Text = "Robot 2";
-            this.robot2ToolStripMenuItem.Click += new System.EventHandler(this.robot2ToolStripMenuItem_Click);
             // 
             // Scorekeeper
             // 

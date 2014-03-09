@@ -11,7 +11,7 @@ namespace Game_Control_Panel
         public enum LANGUAGES
         {
             English = 0,
-            Chinese = 1
+            Chinese = 1 //Translated from English to Chinese by David Sutton. Translation reviewed and improved by Harry Wang and Dr. Yangzhen Qu
             //If additional lanugages are added the NUMBEROFLANGUAGES constant should be changed and the dictonary should be updated
             //When adding new languages check for substrings that could cause errors when replacing values in the file in the ScoreControl.UpdateLanguage() function
         };
@@ -110,21 +110,20 @@ namespace Game_Control_Panel
         private string[,] dictionary = {
             {"File", "文件"}, //File=0, for the File menu
             {"About", "关于"},//About=1, to open the About window (File/About)
-            {"Languages","文"},//Languages=2, for the Languages menu
+            {"Languages","语言"},//Languages=2, for the Languages menu
             {"English","English"},//English=3, for (Languages/English) kept as English in all languages to make it easier for natives to identify
             {"中文","中文"},//Chinese=4, for (Languages/中文) kept as 中文 in all languages to make it easier for natives to identify
             {"Help", "帮助"},//Help=5, for the Help menu
             {"Open Help File", "开始帮助文件"},//OpenHelpFile=6, for (Help/OpenHelpFile)
             {"View Help Website", "开始帮助网址"},//ViewHelpWebsite=7, for (Help/ViewHelpFile)
             {"Game Settings","游戏选项"},//GameSettings=8, for the label that says Game Settings
-            {"Number of Lives", "活几次"},//NumberOfLives=9, for the Number of Lives Label
-            {"1 Life","活一次"},//OneLife = 10, for the Number of lives combo box
-            //Change all forms from sheng ming
-            {"2 Lives","活两次"},//TwoLives = 11, for the Number of lives combo box
-            {"3 Lives","活三次"},//ThreeLives = 12, for the Number of lives combo box
-            {"4 Lives","活四次"},//FourLives = 13, for the Number of lives combo box
-            {"5 Lives","活五次"},//FiveLives = 14, for the Number of lives combo box
-            {"6 Lives","活六次"},//SixLives = 15, for the Number of lives combo box
+            {"Number of Lives", "几条命"},//NumberOfLives=9, for the Number of Lives Label
+            {"1 Life","一条命"},//OneLife = 10, for the Number of lives combo box
+            {"2 Lives","两条命"},//TwoLives = 11, for the Number of lives combo box
+            {"3 Lives","三条命"},//ThreeLives = 12, for the Number of lives combo box
+            {"4 Lives","四条命"},//FourLives = 13, for the Number of lives combo box
+            {"5 Lives","五条命"},//FiveLives = 14, for the Number of lives combo box
+            {"6 Lives","六条命"},//SixLives = 15, for the Number of lives combo box
             {"Game Length","游戏时间"},//GameLength = 16, for Game Length label
             {"1 Minute","一分钟"},//OneMinute = 17, for Game Length combo box
             {"2 Minutes","两分钟"},//TwoMinutes = 18, for Game Length combo box
@@ -149,51 +148,51 @@ namespace Game_Control_Panel
             {"Individual Game","个人游戏"},//IndividualGame = 37, for the Individual Game radio button
             {"Team Game","集体游戏"},//TeamGame = 38, for the Team Game radio button
             {"Start","开始"},//Start = 39, for the start button
-            {"Resume Game","重新开始"},//ResumeGame = 40, for the start button when resuming a game in progress
-            {"Emergency Stop","安全停"},//EmergencyStop = 41, for the EStop button
-            {"Reset Game","从头启动"},//RestGame = 42, for the EStop button to reset a game when the game is over
+            {"Resume Game","继续开始"},//ResumeGame = 40, for the start button when resuming a game in progress
+            {"Emergency Stop","紧急停止"},//EmergencyStop = 41, for the EStop button
+            {"Reset Game","从头开始"},//RestGame = 42, for the EStop button to reset a game when the game is over
             {"Time Remaining:","剩余游戏时间:"},//TimeRemaining = 43, for the Time Remaining label above the timer label
-            {"Game Scores","游戏的得分"},//GameScores = 44, for the Game Scores label above the scores window
-            {"Player 1","第一选手"},//Player1 = 45, for the label Player1
-            {"Player 2","第二选手"},//Player2 = 46, for the label Player2
-            {"Player 3","第三选手"},//Player3 = 47, for the label Player3
-            {"Player 4","第四选手"},//Player4 = 48 for the label Player4 
-            {"Team 1","第一队"},//Team1 = 49, for the label Player1
-            {"Team 2","第二队"},//Team2 = 50, for the label Player2
-            {"Team 3","第三队"},//Team3 = 51, for the label Player3
-            {"Team 4","第四队"},//Team4 = 52, for the label Player4 
-            {"Number of Teams","几个团队"},//NumberOfTeams = 53, for the Number of Teams label
+            {"Game Scores","游戏得分"},//GameScores = 44, for the Game Scores label above the scores window
+            {"Player 1","选手1"},//Player1 = 45, for the label Player1
+            {"Player 2","选手2"},//Player2 = 46, for the label Player2
+            {"Player 3","选手3"},//Player3 = 47, for the label Player3
+            {"Player 4","选手4"},//Player4 = 48 for the label Player4 
+            {"Team 1","队1"},//Team1 = 49, for the label Player1
+            {"Team 2","队2"},//Team2 = 50, for the label Player2
+            {"Team 3","队3"},//Team3 = 51, for the label Player3
+            {"Team 4","队4"},//Team4 = 52, for the label Player4 
+            {"Number of Teams","团队数"},//NumberOfTeams = 53, for the Number of Teams label
             {"2 Teams","两个队"},//TwoTeams = 54, for the Number of Teams combo box
             {"3 Teams","三个队"},//ThreeTeams = 55, for the Number of Teams combo box
             {"4 Teams","四个队"},//FourTeams = 56, for the Number of Teams combo box
             {"Game Control Panel","游戏控制台"},//GameControlPanel = 57 for the title of the application
             {"Points:","得分:"},//Points = 58. for displaying the number of points in the labels
             {"Game Control Panel Version","游戏控制台版本"},//GameControlPanelVersion = 59, for displaying the version number in the about window
-            {"Robotag Game","机器人激光标记游戏"},//RobotagGame = 60, for displaying in the file header
-            {"Game Started","游戏开始了"},//GameStarted = 61, for displaying in the file header
-            {UserInterface.STARTKEYWORD,"开始了游戏 "+UserInterface.STARTKEYWORD},//STARTKEYWORD = 62 for displaying foreign user friendly translation of the start keyword.
+            {"Robotag Game","Robotag 游戏"},//RobotagGame = 60, for displaying in the file header
+            {"Game Started","游戏开始在"},//GameStarted = 61, for displaying in the file header
+            {UserInterface.STARTKEYWORD,"游戏开始了 "+UserInterface.STARTKEYWORD},//STARTKEYWORD = 62 for displaying foreign user friendly translation of the start keyword.
             //Keeps the constant untranslated so that the Game Server may still read the keyword.
             {UserInterface.RESUMEKEYWORD,"继续游戏 "+UserInterface.RESUMEKEYWORD},//RESUMEKEYWORD = 63, for displaying foreign user friendly translation of the resume keyword
-            {UserInterface.ENDKEYWORD, "停游戏 "+UserInterface.ENDKEYWORD},//ENDKEYWORD = 64, for displaying foreign user friendly translation of the end keyword
-            {UserInterface.ENDKEYWORD + " because only one player is remaining.", "停游戏因为就一个人不死了 " + UserInterface.ENDKEYWORD + " because only one player is remaining."},//ENDKEYWORDBecauseOnlyOnePlayerIsRemaining = 65,for displaying foreign user friendy translation of the keyword with a description of why the game stopped
-            {" shot ","打了"},//shot = 66 for the output file to read PlayerX shot PlayerY
-            {"Error: Score file was not found and was replaced by a new score file.","对不起：不可以找到游戏得分文件，所以开始新的游戏得分文件。"},//FileNotFoundErrorMessage = 67 for printing to the file if the file goes missing during the game
+            {UserInterface.ENDKEYWORD, "停止游戏 "+UserInterface.ENDKEYWORD},//ENDKEYWORD = 64, for displaying foreign user friendly translation of the end keyword
+            {UserInterface.ENDKEYWORD + " because only one player is remaining.", "仅剩最后一位玩家游戏停止 " + UserInterface.ENDKEYWORD + " because only one player is remaining."},//ENDKEYWORDBecauseOnlyOnePlayerIsRemaining = 65,for displaying foreign user friendy translation of the keyword with a description of why the game stopped
+            {" shot "," 射杀了 "},//shot = 66 for the output file to read PlayerX shot PlayerY
+            {"Error: Score file was not found and was replaced by a new score file.","对不起：无法找到游戏得分文件，已被新的游戏得分文件覆盖。"},//FileNotFoundErrorMessage = 67 for printing to the file if the file goes missing during the game
             {"This drop down allows the attraction host to specify the number of lives available for each player.",""},//NumberOfLivesComboBoxToolTip = 68, for whent the user hovers their mouse over this control
             {"This allows the attraction host to specify the length of the game.",""},//GameLengthComboBoxToolTip = 69, for whent the user hovers their mouse over this control
             {"This allows the attraction host to specify an individual game.",""},//IndividualGameRadioButtonToolTip = 70, for whent the user hovers their mouse over this control
             {"This allows the attraction host to specify a team game.",""},//TeamGameRadioButtonToolTip = 71, for whent the user hovers their mouse over this control
             {"This allows the attraction host to specify the number of teams.",""},//NumberOfTeamsComboBoxToolTip = 72, for whent the user hovers their mouse over this control
-            {"This button will start or resume the gameplay.",""},//StartButtonToolTip = 73, for whent the user hovers their mouse over this control
+            {"This button will start or resume the gameplay.","开始/继续键"},//StartButtonToolTip = 73, for whent the user hovers their mouse over this control
             {"This button will stop an active the gameplay in the event of an emergency.\nIf the game has already been stopped this button can also be used to reset the game.\r\nThe text of the button will change to indicate if the button will stop or reset the game.",""},//EStopButtonToolTip = 74 for whent the user hovers their mouse over this control
-            {"File Error", "文件问题"},//FileError = 75 for the file error pop up box
-            {"Error Writing to File", "问题写在文件"},//ErrorWritingToFile = 76 for the file error pop up box
-            {"Error Reading from File", "问题看在文件"},//ErrorReadingFromFile = 77 for the file error pop up box
-            {"Final Game Scores:","完了游戏得分："},//FinalGameScores = 78 for appending to the end of the file after the game is reset
-            {"Video Feed", "看机器人电视"},//VideoFeed=79 for the video feed menu item
-            {"Robot 1", "第一机器人"},//Robot1=80 for the video feed menu drop down option
-            {"Robot 2", "第二机器人"},//Robot2=81 for the video feed menu drop down option
-            {"Robot 1 Video Feed", "看机器人一电视"},//Robot1=82 for the video feed window
-            {"Robot 2 Video Feed", "看机器人二电视"}//Robot2=83 for the video feed window
+            {"File Error", "文件错误"},//FileError = 75 for the file error pop up box
+            {"Error Writing to File", "无法写文件"},//ErrorWritingToFile = 76 for the file error pop up box
+            {"Error Reading from File", "无法读文件"},//ErrorReadingFromFile = 77 for the file error pop up box
+            {"Final Game Scores:","最终游戏得分："},//FinalGameScores = 78 for appending to the end of the file after the game is reset
+            {"Video Feed", "摄像机"},//VideoFeed=79 for the video feed menu item
+            {"Robot 1", "机器人1"},//Robot1=80 for the video feed menu drop down option
+            {"Robot 2", "机器人2"},//Robot2=81 for the video feed menu drop down option
+            {"Robot 1 Video Feed", "摄像机视角1"},//Robot1=82 for the video feed window
+            {"Robot 2 Video Feed", "摄像机视角2"}//Robot2=83 for the video feed window
                                         };
         public Translation()
         {
@@ -246,7 +245,7 @@ namespace Game_Control_Panel
             switch (Language)
             {
                 case LANGUAGES.Chinese:
-                    return lives + "个生命";//There is no plural case for this translation
+                    return lives + " 条命";//There is no plural case for this translation
                     break;
                 default:
                 case LANGUAGES.English:
@@ -267,7 +266,7 @@ namespace Game_Control_Panel
             switch (Language)
             {
                 case LANGUAGES.Chinese:
-                    return "打从" + PlayerX + ", " + shots.ToString() + "个打";
+                    return "被打" + PlayerX + ", " + shots.ToString() + "次";
                     break;
                 default:
                 case LANGUAGES.English:
