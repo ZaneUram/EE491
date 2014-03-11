@@ -25,11 +25,9 @@ namespace Game_Control_Panel
         Thread timerThread;
         Thread ScoreKeeperThread;
         private Translation Translator = new Translation();
-        private Form Robot1VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot1VideoFile);//This URL is currently undefined
-        private const string Robot1VideoFile = "Robot1Video.html";//This URL is currently undefined
-        private Form Robot2VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot2VideoFile);//This URL is currently undefined
-        private const string Robot2VideoFile = "Robot2Video.html";//This URL is currently undefined
-
+        private Form Robot1VideoForm = new RobotVideo("http://192.168.2.153:8080/javascript_simple.html");//This URL is defined for Robot1
+        private Form Robot2VideoForm = new RobotVideo("http://192.168.2.145:8080/javascript_simple.html");//This URL is defined for Robot2
+        
         public UserInterface()
         {
             InitializeComponent();
@@ -402,6 +400,12 @@ namespace Game_Control_Panel
             updateLanguage();
         }
 
+        private void espanolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Translator.SetLanguage(Translation.LANGUAGES.Spanish);
+            updateLanguage();
+        }
+
         private void updateLanguage()
         {
             //
@@ -525,6 +529,10 @@ namespace Game_Control_Panel
             // 
             this.chineseToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.Chinese);
             // 
+            // espanolToolStripMenuItem
+            // 
+            this.espanolToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.Spanish);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Text = Translator.GetWord(Translation.WORDS.Help);
@@ -577,7 +585,7 @@ namespace Game_Control_Panel
         {
             if (Robot1VideoForm.IsDisposed)
             {
-                Robot1VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot1VideoFile);//This URL is currently undefined
+                Robot1VideoForm = new RobotVideo("http://192.168.2.153:8080/javascript_simple.html");//This URL is currently undefined
             }
             Robot1VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot1VideoFeed);
             Robot1VideoForm.Show();
@@ -588,7 +596,7 @@ namespace Game_Control_Panel
         {
             if (Robot2VideoForm.IsDisposed)
             {
-                Robot2VideoForm = new RobotVideo(ScoreControl.SCOREFILEDIRECTORY + "\\" + Robot2VideoFile);
+                Robot2VideoForm = new RobotVideo("http://192.168.2.145:8080/javascript_simple.html");
             }
             Robot2VideoForm.Text = Translator.GetWord(Translation.WORDS.Robot2VideoFeed);//This URL is currently undefined
             Robot2VideoForm.Show();

@@ -57,6 +57,7 @@
             this.viewHelpWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.Scorekeeper = new Game_Control_Panel.ScoreControl();
+            this.espanolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -283,7 +284,8 @@
             // 
             this.languagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem,
-            this.chineseToolStripMenuItem});
+            this.chineseToolStripMenuItem,
+            this.espanolToolStripMenuItem});
             this.languagesToolStripMenuItem.Name = "languagesToolStripMenuItem";
             this.languagesToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.languagesToolStripMenuItem.Text = "Languages";
@@ -291,14 +293,14 @@
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.englishToolStripMenuItem.Text = "English";
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // chineseToolStripMenuItem
             // 
             this.chineseToolStripMenuItem.Name = "chineseToolStripMenuItem";
-            this.chineseToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.chineseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.chineseToolStripMenuItem.Text = "中文";
             this.chineseToolStripMenuItem.Click += new System.EventHandler(this.chineseToolStripMenuItem_Click);
             // 
@@ -335,6 +337,13 @@
             this.Scorekeeper.Name = "Scorekeeper";
             this.Scorekeeper.Size = new System.Drawing.Size(275, 438);
             this.Scorekeeper.TabIndex = 14;
+            // 
+            // espanolToolStripMenuItem
+            // 
+            this.espanolToolStripMenuItem.Name = "espanolToolStripMenuItem";
+            this.espanolToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.espanolToolStripMenuItem.Text = "Español";
+            this.espanolToolStripMenuItem.Click += new System.EventHandler(this.espanolToolStripMenuItem_Click);
             // 
             // UserInterface
             // 
@@ -399,6 +408,7 @@
         private System.Windows.Forms.ToolStripMenuItem videoFeedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem robot1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem robot2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem espanolToolStripMenuItem;
     }
 }
 

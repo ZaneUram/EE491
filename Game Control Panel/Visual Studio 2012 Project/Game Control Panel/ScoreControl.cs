@@ -36,7 +36,7 @@ namespace Game_Control_Panel
         public const string SCOREFILENAME = "GameScores.txt";//This is not translated because the Game Server relies on this constant file path
         public const string ARCHIVEDIRECTORY = "Archives";//This is not translated because the Game Server relies on this constant file path
         StreamReader Stream = null;
-        Regex expression = new Regex("Player\\d|player\\d|Player \\d|player \\d|Team\\d|team\\d|Team \\d|team \\d|选手 \\d|选手\\d|队 \\d|队\\d"); //Keyword scanning for is PlayerX, TeamX, 选手X, or 队X where X is a number. These forms will also respond if the first letter is not capitalized or if there is a space between the word and X.
+        Regex expression = new Regex("Player\\d|player\\d|Player \\d|player \\d|Team\\d|team\\d|Team \\d|team \\d|选手 \\d|选手\\d|队 \\d|队\\d|Jugador \\d|Jugador\\d|jugador \\d|jugador\\d|Equipo \\d|Equipo\\d|equipo \\d|equipo\\d"); //Keyword scanning for is PlayerX, TeamX, 选手X, or 队X where X is a number. These forms will also respond if the first letter is not capitalized or if there is a space between the word and X.
         String fileText; //Used to store the contents of the file after reading in updating game or appending text to the file.
         //The next set of variables are used to append the output showing how many times each player has been shot each of their opponents.
         private int Player1ShotsFromPlayer2 = 0;
@@ -282,6 +282,14 @@ namespace Game_Control_Panel
             fileText = fileText.Replace("选手1", Player1Label.Text);
             fileText = fileText.Replace("队 1", Player1Label.Text);
             fileText = fileText.Replace("队1", Player1Label.Text);
+            fileText = fileText.Replace("Jugador1", Player1Label.Text);
+            fileText = fileText.Replace("jugador1", Player1Label.Text);
+            fileText = fileText.Replace("Jugador 1", Player1Label.Text);
+            fileText = fileText.Replace("jugador 1", Player1Label.Text);
+            fileText = fileText.Replace("Equipo1", Player1Label.Text);
+            fileText = fileText.Replace("equipo1", Player1Label.Text);
+            fileText = fileText.Replace("Equipo 1", Player1Label.Text);
+            fileText = fileText.Replace("equipo 1", Player1Label.Text);
 
             fileText = fileText.Replace("Player2", Player2Label.Text);
             fileText = fileText.Replace("player2", Player2Label.Text);
@@ -295,6 +303,14 @@ namespace Game_Control_Panel
             fileText = fileText.Replace("选手2", Player2Label.Text);
             fileText = fileText.Replace("队 2", Player2Label.Text);
             fileText = fileText.Replace("队2", Player2Label.Text);
+            fileText = fileText.Replace("Jugador2", Player2Label.Text);
+            fileText = fileText.Replace("jugador2", Player2Label.Text);
+            fileText = fileText.Replace("Jugador 2", Player2Label.Text);
+            fileText = fileText.Replace("jugador 2", Player2Label.Text);
+            fileText = fileText.Replace("Equipo2", Player2Label.Text);
+            fileText = fileText.Replace("equipo2", Player2Label.Text);
+            fileText = fileText.Replace("Equipo 2", Player2Label.Text);
+            fileText = fileText.Replace("equipo 2", Player2Label.Text);
 
             fileText = fileText.Replace("Player3", Player3Label.Text);
             fileText = fileText.Replace("player3", Player3Label.Text);
@@ -308,6 +324,14 @@ namespace Game_Control_Panel
             fileText = fileText.Replace("选手3", Player3Label.Text);
             fileText = fileText.Replace("队 3", Player3Label.Text);
             fileText = fileText.Replace("队3", Player3Label.Text);
+            fileText = fileText.Replace("Jugador3", Player3Label.Text);
+            fileText = fileText.Replace("jugador3", Player3Label.Text);
+            fileText = fileText.Replace("Jugador 3", Player3Label.Text);
+            fileText = fileText.Replace("jugador 3", Player3Label.Text);
+            fileText = fileText.Replace("Equipo3", Player3Label.Text);
+            fileText = fileText.Replace("equipo3", Player3Label.Text);
+            fileText = fileText.Replace("Equipo 3", Player3Label.Text);
+            fileText = fileText.Replace("equipo 3", Player3Label.Text);
 
             fileText = fileText.Replace("Player4", Player4Label.Text);
             fileText = fileText.Replace("player4", Player4Label.Text);
@@ -321,6 +345,15 @@ namespace Game_Control_Panel
             fileText = fileText.Replace("选手4", Player4Label.Text);
             fileText = fileText.Replace("队 4", Player4Label.Text);
             fileText = fileText.Replace("队4", Player4Label.Text);
+            fileText = fileText.Replace("Jugador4", Player4Label.Text);
+            fileText = fileText.Replace("jugador4", Player4Label.Text);
+            fileText = fileText.Replace("Jugador 4", Player4Label.Text);
+            fileText = fileText.Replace("jugador 4", Player4Label.Text);
+            fileText = fileText.Replace("Equipo4", Player4Label.Text);
+            fileText = fileText.Replace("equipo4", Player4Label.Text);
+            fileText = fileText.Replace("Equipo 4", Player4Label.Text);
+            fileText = fileText.Replace("equipo 4", Player4Label.Text);
+
 
             //Write the reformatted text back to the file
             if (!Directory.Exists(SCOREFILEDIRECTORY))
@@ -996,6 +1029,14 @@ namespace Game_Control_Panel
                         fileText = fileText.Replace("选手1", Player1Label.Text);
                         fileText = fileText.Replace("队 1", Player1Label.Text);
                         fileText = fileText.Replace("队1", Player1Label.Text);
+                        fileText = fileText.Replace("Jugador1", Player1Label.Text);
+                        fileText = fileText.Replace("jugador1", Player1Label.Text);
+                        fileText = fileText.Replace("Jugador 1", Player1Label.Text);
+                        fileText = fileText.Replace("jugador 1", Player1Label.Text);
+                        fileText = fileText.Replace("Equipo1", Player1Label.Text);
+                        fileText = fileText.Replace("equipo1", Player1Label.Text);
+                        fileText = fileText.Replace("Equipo 1", Player1Label.Text);
+                        fileText = fileText.Replace("equipo 1", Player1Label.Text);
 
                         fileText = fileText.Replace("Player2", Player2Label.Text);
                         fileText = fileText.Replace("player2", Player2Label.Text);
@@ -1009,6 +1050,14 @@ namespace Game_Control_Panel
                         fileText = fileText.Replace("选手2", Player2Label.Text);
                         fileText = fileText.Replace("队 2", Player2Label.Text);
                         fileText = fileText.Replace("队2", Player2Label.Text);
+                        fileText = fileText.Replace("Jugador2", Player2Label.Text);
+                        fileText = fileText.Replace("jugador2", Player2Label.Text);
+                        fileText = fileText.Replace("Jugador 2", Player2Label.Text);
+                        fileText = fileText.Replace("jugador 2", Player2Label.Text);
+                        fileText = fileText.Replace("Equipo2", Player2Label.Text);
+                        fileText = fileText.Replace("equipo2", Player2Label.Text);
+                        fileText = fileText.Replace("Equipo 2", Player2Label.Text);
+                        fileText = fileText.Replace("equipo 2", Player2Label.Text);
 
                         fileText = fileText.Replace("Player3", Player3Label.Text);
                         fileText = fileText.Replace("player3", Player3Label.Text);
@@ -1022,6 +1071,14 @@ namespace Game_Control_Panel
                         fileText = fileText.Replace("选手3", Player3Label.Text);
                         fileText = fileText.Replace("队 3", Player3Label.Text);
                         fileText = fileText.Replace("队3", Player3Label.Text);
+                        fileText = fileText.Replace("Jugador3", Player3Label.Text);
+                        fileText = fileText.Replace("jugador3", Player3Label.Text);
+                        fileText = fileText.Replace("Jugador 3", Player3Label.Text);
+                        fileText = fileText.Replace("jugador 3", Player3Label.Text);
+                        fileText = fileText.Replace("Equipo3", Player3Label.Text);
+                        fileText = fileText.Replace("equipo3", Player3Label.Text);
+                        fileText = fileText.Replace("Equipo 3", Player3Label.Text);
+                        fileText = fileText.Replace("equipo 3", Player3Label.Text);
 
                         fileText = fileText.Replace("Player4", Player4Label.Text);
                         fileText = fileText.Replace("player4", Player4Label.Text);
@@ -1035,6 +1092,14 @@ namespace Game_Control_Panel
                         fileText = fileText.Replace("选手4", Player4Label.Text);
                         fileText = fileText.Replace("队 4", Player4Label.Text);
                         fileText = fileText.Replace("队4", Player4Label.Text);
+                        fileText = fileText.Replace("Jugador4", Player4Label.Text);
+                        fileText = fileText.Replace("jugador4", Player4Label.Text);
+                        fileText = fileText.Replace("Jugador 4", Player4Label.Text);
+                        fileText = fileText.Replace("jugador 4", Player4Label.Text);
+                        fileText = fileText.Replace("Equipo4", Player4Label.Text);
+                        fileText = fileText.Replace("equipo4", Player4Label.Text);
+                        fileText = fileText.Replace("Equipo 4", Player4Label.Text);
+                        fileText = fileText.Replace("equipo 4", Player4Label.Text);
 
                         WriteAccess.Write(fileText);
                     }

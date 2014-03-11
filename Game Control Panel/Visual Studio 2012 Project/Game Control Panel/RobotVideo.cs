@@ -14,6 +14,7 @@ namespace Game_Control_Panel
         public RobotVideo(string URL)
         {
             InitializeComponent();
+            this.webBrowser1.Url = new System.Uri(URL, System.UriKind.Absolute);
         }
     }
 }
